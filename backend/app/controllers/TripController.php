@@ -2,8 +2,12 @@
 namespace app\controllers;
 
 require 'app/models/Trip.php';
+require 'app/models/Road.php';
+require 'app/models/Bus.php';
 
 use app\models\Trip;
+use app\models\Road;
+use app\models\Bus;
 
 
 
@@ -64,6 +68,22 @@ class TripController
         $number_bus = $_POST['number_bus'];
         $road_id = $_POST['road_id'];
     
+        
+        
+        //check if road avaible
+        $road = Road::find($road_id);
+        if (!$road) {
+            self::sendResponse(" road belong this id $road_id not avaible ", 404);
+            return;
+        }
+
+    //check if road avaible
+        $bus = Bus::find($number_bus);
+        if (!$bus) {
+            self::sendResponse(" Bus belong this id $number_bus not avaible", 404);
+            return;
+        }
+
         // Create a new Trip instance
         $trip = new Trip();
         $trip->setDepartureTime($departure_time);
