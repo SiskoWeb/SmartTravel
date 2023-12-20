@@ -2,13 +2,10 @@
 namespace app\controllers;
 
 require 'app/models/Trip.php';
-require 'app/models/Road.php';
-require 'app/models/Bus.php';
-
-use app\models\Trip;
 use app\models\Road;
 use app\models\Bus;
 
+use app\models\Trip;
 
 
 
@@ -69,21 +66,29 @@ class TripController
         $road_id = $_POST['road_id'];
     
         
-        
-        //check if road avaible
-        $road = Road::find($road_id);
-        if (!$road) {
-            self::sendResponse(" road belong this id $road_id not avaible ", 404);
-            return;
-        }
 
-    //check if road avaible
-        $bus = Bus::find($number_bus);
-        if (!$bus) {
-            self::sendResponse(" Bus belong this id $number_bus not avaible", 404);
-            return;
-        }
+    // require 'app/models/Road.php';
+    // require 'app/models/Bus.php';
 
+    //     //check if road avaible
+    //     $road = Trip::find($road_id);
+    //     if (!$road) {
+    //         self::sendResponse(" road belong this id $road_id not avaible ", 404);
+    //         return;
+    //     }
+
+    // //check if road avaible
+    //     $bus = Bus::find($number_bus);
+    //     if (!$bus) {
+    //         self::sendResponse(" Bus belong this id $number_bus not avaible", 404);
+    //         return;
+    //     }
+    $isDuplicated = Trip::isDuplicateTrip($road_id, $departure_time);
+    if ($isDuplicated) {
+    
+    self::sendResponse(" A trip already exists for the specified road and time range.'", 402);
+    return;
+}
         // Create a new Trip instance
         $trip = new Trip();
         $trip->setDepartureTime($departure_time);

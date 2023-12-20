@@ -58,7 +58,7 @@ class Trip extends Model
     {
       
 
-            return static::database()->query('SELECT * FROM road order by id DESC')
+            return static::database()->query('SELECT * FROM trip order by id DESC')
             ->fetchAll(PDO::FETCH_ASSOC);
    
     }
@@ -68,7 +68,7 @@ class Trip extends Model
     public static function all()
     {
         return static::database()
-            ->query("SELECT * FROM road")
+            ->query("SELECT * FROM trip")
             ->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -96,13 +96,13 @@ class Trip extends Model
 
 
     public function create() {
-        $sql = "INSERT INTO trip (departure_time, arrive_time, seats_available,  number_bus, road_id) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO trip (departure_time, arrive_time, seats_available,  number_bus, road_id) VALUES (?, ?, ?, ?, ?)";
         $params = [$this->departureTime, $this->arriveTime, $this->seatsAvailable,  $this->numberBus, $this->roadId];
     
         $sqlState = static::database()->prepare($sql);
         return $sqlState->execute($params);
     }
-    
+
  
 
 
@@ -170,4 +170,30 @@ class Trip extends Model
         $sqlState = self::database()->prepare("DELETE FROM trip WHERE id = ?");
         return $sqlState->execute([$id]);
     }
+
+
+    public static function isDuplicateTrip($roadId, $departureTime)
+    {
+        //Get all trips in same route
+        $sql = "SELECT departure_time FROM trip WHERE road_id = ?";
+        
+        $params = [$roadId];
+        
+        $sqlState = self::database()->prepare($sql);
+        $sqlState->execute($params);
+        
+        $existingDepartureTimes = $sqlState->fetchAll(PDO::FETCH_COLUMN);
+    
+        foreach ($existingDepartureTimes as $roadDepartureTime) {
+
+            // Check if the new departure time is within 1 hour of any existing departure time
+            if (strtotime($departureTime) >= strtotime($roadDepartureTime) && strtotime($departureTime) <= strtotime($roadDepartureTime) + 3600) {
+                return true; // Duplicate trip
+            }
+        }
+    
+        return false; // Not a duplicate trip
+    }
+
+    
 }
