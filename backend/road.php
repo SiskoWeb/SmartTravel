@@ -1,8 +1,8 @@
 <?php
 
 
-use app\controllers\BusController;
-require 'app/Controllers/BusController.php';
+use app\controllers\RoadController;
+require 'app/Controllers/RoadController.php';
 
 
 
@@ -11,29 +11,29 @@ if (isset($_GET['action'])) {
     switch ($action) {
 
         case 'list':
-            BusController::indexAction();
+            RoadController::indexAction();
             break;
 
         case 'show':
-            if (isset($_GET['number_bus'])) {
-                BusController::show($_GET['number_bus']);
+            if (isset($_GET['id'])) {
+                RoadController::show($_GET['id']);
             } else {
-                echo "Invalid request number_bus required";
+                echo "Invalid request id required";
             }
             break;
 
         case 'latest':
-            BusController::latest();
+            RoadController::latest();
             break;
 
             case 'create':
-                BusController::createAction();
+                RoadController::createAction();
                 break;
 
                 case 'update':
                     if (isset($_GET['id'])) {
                    
-                        BusController::updateAction($_GET['id']);
+                        RoadController::updateAction($_GET['id']);
                     } else {
                         echo "Invalid request id required";
                     }
@@ -42,8 +42,8 @@ if (isset($_GET['action'])) {
                  
                     
                     case 'delete':
-                        if (isset($_GET['number_bus'])) {
-                            BusController::destroyAction($_GET['number_bus']);
+                        if (isset($_GET['id'])) {
+                            RoadController::destroyAction($_GET['id']);
                         } else {
                             echo "Invalid request id required";
                         }
@@ -53,5 +53,5 @@ if (isset($_GET['action'])) {
             break;
     }
 } else {
-    BusController::indexAction();
+    RoadController::indexAction();
 }

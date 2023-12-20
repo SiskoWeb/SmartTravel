@@ -83,31 +83,39 @@ class Bus extends Model
     //     $sqlState = static::database()->prepare("UPDATE company SET name=?, image=? WHERE id=?");
     //     return $sqlState->execute([$this->name, $this->img, $this->id]);
     // }
-    public function update()
-    {
-       
-        // $sql = "UPDATE company SET ";
-        // $params = [];
+    public function update() {
+        $sql = "UPDATE bus SET ";
+        $params = [];
 
-        // if ($this->name !== null) {
-        //     $sql .= "name=?, ";
-        //     $params[] = $this->name;
-        // }
+        if ($this->number_bus !== null) {
+            $sql .= "number_bus=?, ";
+            $params[] = $this->number_bus;
+        }
 
-        // if ($this->img !== null) {
-        //     $sql .= "image=?, ";
-        //     $params[] = $this->img;
-        // }
+        if ($this->companyID !== null) {
+            $sql .= "company_id=?, ";
+            $params[] = $this->companyID;
+        }
 
-        // // Remove the trailing comma and space from the SQL string
-        // $sql = rtrim($sql, ", ");
+        if ($this->capacity !== null) {
+            $sql .= "capacity=?, ";
+            $params[] = $this->capacity;
+        }
 
-        // $sql .= " WHERE id=?";
-        // $params[] = $this->id;
+        if ($this->cost_per_km !== null) {
+            $sql .= "cost_per_km=?, ";
+            $params[] = $this->cost_per_km;
+        }
 
-        // $sqlState = static::database()->prepare($sql);
+        // Remove the trailing comma and space from the SQL string
+        $sql = rtrim($sql, ", ");
 
-        // return $sqlState->execute($params);
+        $sql .= " WHERE number_bus=?";
+        $params[] = $this->number_bus;
+
+        $sqlState = static::database()->prepare($sql);
+
+        return $sqlState->execute($params);
     }
 
     public static function  destroy($number_bus)

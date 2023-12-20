@@ -23,16 +23,16 @@ class BusController
         echo json_encode($companies);
     }
 
-    public static function show($id)
+    public static function show($number_bus)
     {
-        $bus = Bus::find($id);
+        $bus = Bus::find($number_bus);
    
         if($bus) {
 
         echo json_encode($bus);
         return;
     } 
-        self::sendResponse("there is no Bus under this $id", 404);
+        self::sendResponse("there is no Bus under thisid  $number_bus", 404);
  
        
     }
@@ -51,6 +51,12 @@ class BusController
 
     public static function createAction()
     {
+        //list of data expect user send it 
+        $requiredFields = ['companyID', 'capacity', 'cost_per_km'];
+
+        //validation
+        self::validator($requiredFields);
+
         $companyID = $_POST['companyID'];
         $capacity = $_POST['capacity']; 
         $cost_per_km = $_POST['cost_per_km'];  
@@ -68,49 +74,58 @@ class BusController
         }
     }
 
-    public static function updateAction($id)
-    {
-    
 
-       
-    //       //check if id exist
-    //     if($id === null) {
-    //         self::sendResponse("id required", 404);
-    //         return;
-    //     }
+
+    public static function updateAction($number_bus)
+    {
+         //list of data expect user send it 
+         $requiredFields = ['companyID', 'capacity', 'cost_per_km'];
+
+        self::validator($requiredFields);
+          //check if id exist
+        if($number_bus === null) {
+            self::sendResponse("id required", 401);
+            return;
+        }
 
        
         
-    //     $name = isset($_POST['name']) ? $_POST['name'] : null; 
-    //     $img = isset($_POST['img']) ? $_POST['img'] : null;   
-    //     $name = isset($_POST['name']) ? $_POST['name'] : null; 
-    //     $img = isset($_POST['img']) ? $_POST['img'] : null; 
+        $companyID = isset( $_POST['companyID']) ? $_POST['companyID']:null;
+        $capacity = isset( $_POST['capacity']) ? $_POST['capacity']:null;
+        $cost_per_km = isset( $_POST['cost_per_km']) ? $_POST['cost_per_km']:null;
+ 
 
 
-    //     //check if id exist 
-    //     $bus = Bus::find($id);
+        //check if id exist 
+        $bus = Bus::find($companyID);
 
-    //     if (!$bus) {
-    //         self::sendResponse("there is no Bus under this $id", 404);
-    //         return;
-    //     }
-    // //create new instanse cuz first one connot pass to it a parrms 
-    //     $bus = new Bus();   
-    //     if ($name !== null) {
-    //         $bus->setId($id);
-    //         $bus->setName($name);
-    //     }
+        if (!$bus) {
+            self::sendResponse("there is no Bus under this $number_bus", 404);
+            return;
+        }
+    //create new instanse cuz first one connot pass to it a parrms 
+        $bus = new Bus();   
+        if ($capacity !== null) {
+       
+            $bus->setCapacity($capacity);
+            $bus->setNumberBus($number_bus);
+          
+        }
 
-    //     if ($img !== null) {
-    //         $bus->setImg($img);
-    //     }
+        if ($cost_per_km !== null) {
+            $bus->setCostPerKm($cost_per_km);
+        }
+        if ($companyID !== null) {
+            $bus->setCompanyID($companyID);
+        }
 
-    //     if ($bus->update()) {
-    //         self::sendResponse("Bus updated successfully", 200);
-    //     } else {
-    //         self::sendResponse("Failed to update Bus", 500);
-    //     }
+        if ($bus->update()) {
+            self::sendResponse("Bus updated successfully", 200);
+        } else {
+            self::sendResponse("Failed to update Bus", 500);
+        }
     }
+
 
 //remove Bus by id
     public static function destroyAction($number_bus)
@@ -128,5 +143,16 @@ class BusController
     public static function sendResponse($message, $status) {
         http_response_code($status);
         echo json_encode(["message" => $message, "status" => $status]);
+    }
+
+    public static function validator($requiredFields = []){
+        // Validate data (you may want to add more validation)
+
+foreach ($requiredFields as $field) {
+    if (!isset($_POST[$field])) {
+        self::sendResponse("Incomplete data. Missing field:  {$field}", 401);
+        
+    }
+}
     }
 }

@@ -51,6 +51,12 @@ class CompanyController
 
     public static function createAction()
     {
+   //list of data expect user send it 
+   $requiredFields = ['name', 'img'];
+
+   //validation
+   self::validator($requiredFields);
+
         $name = $_POST['name']; 
         $img = $_POST['img'];  
 
@@ -68,7 +74,10 @@ class CompanyController
     public static function updateAction($id)
     {
     
+      //list of data expect user send it 
+      $requiredFields = ['name', 'img'];
 
+      self::validator($requiredFields);
        
           //check if id exist
         if($id === null) {
@@ -123,5 +132,16 @@ class CompanyController
     public static function sendResponse($message, $status) {
         http_response_code($status);
         echo json_encode(["message" => $message, "status" => $status]);
+    }
+
+    public static function validator($requiredFields = []){
+        // Validate data (you may want to add more validation)
+
+foreach ($requiredFields as $field) {
+    if (!isset($_POST[$field])) {
+        self::sendResponse("Incomplete data. Missing field:  {$field}", 401);
+        
+    }
+}
     }
 }
