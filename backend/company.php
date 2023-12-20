@@ -22,6 +22,9 @@ if (isset($_GET['action'])) {
         case 'latest':
             CompanyController::latest();
             break;
+            case 'create':
+                CompanyController::createAction();
+                break;
         default:
             echo "Page Not found 404";
             break;

@@ -16,24 +16,27 @@ class Company extends Model
 
 
 
-    public function getId()
+    public function setId()
     {
         return $this->id;
     }
-    public function getName()
+    public function setName()
     {
         return $this->name;
     }
 
-    public function getImg()
+    public function setImg()
     {
         return $this->img;
     }
 
     public static function latest()
     {
-        return static::database()->query('SELECT * FROM company order by id DESC')
+      
+
+            return static::database()->query('SELECT * FROM company order by id DESC')
             ->fetchAll(PDO::FETCH_ASSOC);
+   
     }
 
 
@@ -65,14 +68,15 @@ class Company extends Model
         return $data;
     }
 
-        // public function create()
-    // {
-    //     $sqlState = static::database()->prepare("INSERT INTO company VALUES(null,?,?)");
-    //     return $sqlState->execute([
-    //         $this->modele,
-    //         $this->prix
-    //     ]);
-    // }
+        public function create()
+    {
+        echo 'hello from create model';
+        $sqlState = static::database()->prepare("INSERT INTO company VALUES(null,?,?)");
+        return $sqlState->execute([
+            $this->name,
+            $this->img
+        ]);
+    }
     // public function update($id)
     // {
     

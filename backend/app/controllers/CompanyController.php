@@ -27,9 +27,13 @@ class CompanyController
     {
         $company = Company::find($id);
    
-        if(isset($company)) return json_encode($company);
+        if($company) {
+
+        echo json_encode($company);
+        return;
+    } 
         self::sendResponse("there is no company under this $id", 404);
-        
+ 
        
     }
 
@@ -37,10 +41,30 @@ class CompanyController
     {
         $latestCompanies = Company::latest();
     
-        echo json_encode($latestCompanies);
+        if($latestCompanies) {
+            echo json_encode($latestCompanies);
+            return ;
+    } 
+        self::sendResponse("there is no ", 404);
     }
 
-    
+
+    public static function createAction()
+    {
+        $name = $_POST['name']; 
+        $img = $_POST['img'];  
+
+        $company = new Company();
+        $company->setName($name);
+        $company->setImg($img);
+
+        if ($company->create()) {
+            self::sendResponse("Company created successfully", 201);
+        } else {
+            self::sendResponse("Failed to create company", 500);
+        }
+    }
+
     public static function sendResponse($message, $status) {
         http_response_code($status);
         echo json_encode(["message" => $message, "status" => $status]);
