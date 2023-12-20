@@ -1,7 +1,8 @@
 <?php
 
-function uploadImage($fileInput, $targetDir)
+  function uploadImage($fileInput, $targetDir)
 {
+   
     if ($_FILES[$fileInput]) {
         $targetPath = $targetDir . basename($_FILES[$fileInput]['name']);
         $imageFileType = strtolower(pathinfo($targetPath, PATHINFO_EXTENSION));

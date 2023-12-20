@@ -8,12 +8,10 @@ use app\models\Company;
 
 
 
+
 class CompanyController 
 {
 
-
-
-  
 
     public static function indexAction()
     {
@@ -53,21 +51,21 @@ class CompanyController
     {
 
    //list of data expect user send it 
-   $requiredFields = ['name', 'img'];
+   $requiredFields = ['name'];
 
    //validation
    self::validator($requiredFields);
 
         $name = $_POST['name']; 
-        $img = $_POST['img'];  
+        $img = $_FILES['img']; 
 
 
-        $fileInputName = $img; 
-        $targetDirectory = 'uploads/company/'; 
+        $fileInputName = 'img'; 
+        $targetDirectory = 'upload/company/'; 
 
         //upload img
-        $img_url = uploadImage($fileInputName, $targetDirectory);
-if (!$img_url) {
+        $img_url = self::uploadImage($fileInputName, $targetDirectory,$name);
+        if (!$img_url) {
     
     self::sendResponse("Failed to upload image or invalid file extension.", 500);
 
@@ -97,7 +95,7 @@ if (!$img_url) {
        
         
         $name = isset($_POST['name']) ? $_POST['name'] : null; 
-        $img = isset($_POST['img']) ? $_POST['img'] : null;   
+        $img = isset($_FILES['img']) ?$_FILES['img'] : null;   
 
 
         //check if id exist 
@@ -116,11 +114,11 @@ if (!$img_url) {
 
         if ($img !== null) {
             
-            $fileInputName = $img; 
+            $fileInputName = 'img'; 
             $targetDirectory = 'uploads/company/'; 
             
             //upload img
-            $img_url = uploadImage($fileInputName, $targetDirectory);
+            $img_url = self::uploadImage($fileInputName, $targetDirectory,$name);
             if (!$img_url) {
                 
                 self::sendResponse("Failed to upload image or invalid file extension.", 500);
@@ -154,6 +152,7 @@ if (!$img_url) {
         echo json_encode(["message" => $message, "status" => $status]);
     }
 
+
     public static function validator($requiredFields = []){
         // Validate data (you may want to add more validation)
 
@@ -161,7 +160,25 @@ foreach ($requiredFields as $field) {
     if (!isset($_POST[$field])) {
         self::sendResponse("Incomplete data. Missing field:  {$field}", 401);
         
-    }
-}
+    }}}
+
+
+ public static  function  uploadImage($fileInput, $targetDir,$nameImg)
+    {
+       
+        if ($_FILES[$fileInput]) {
+            $targetPath = $targetDir . basename($nameImg . $_FILES[$fileInput]['name']);
+            $imageFileType = strtolower(pathinfo($targetPath, PATHINFO_EXTENSION));
+            $allowedExtensions = array('jpg', 'jpeg', 'png', 'gif');
+    
+            if (in_array($imageFileType, $allowedExtensions) &&
+                move_uploaded_file($_FILES[$fileInput]['tmp_name'], $targetPath)) {
+                return $targetPath; // Return the path of the uploaded image
+            } else {
+                return false; // Failed to upload image or invalid file extension
+            }
+        } else {
+            return false; // No file submitted
+        }
     }
 }
