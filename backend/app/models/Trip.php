@@ -174,7 +174,6 @@ class Trip extends Model
 
     public static function isDuplicateTrip($roadId, $departureTime)
     {
-        //Get all trips in same route
         $sql = "SELECT departure_time FROM trip WHERE road_id = ?";
         
         $params = [$roadId];
@@ -185,15 +184,15 @@ class Trip extends Model
         $existingDepartureTimes = $sqlState->fetchAll(PDO::FETCH_COLUMN);
     
         foreach ($existingDepartureTimes as $roadDepartureTime) {
-
-            // Check if the new departure time is within 1 hour of any existing departure time
-            if (strtotime($departureTime) >= strtotime($roadDepartureTime) && strtotime($departureTime) <= strtotime($roadDepartureTime) + 3600) {
+            // Check if the new departure time is more than 1 hour later than any existing departure time
+            if (strtotime($departureTime) <= strtotime($roadDepartureTime) + 3600) {
                 return true; // Duplicate trip
             }
         }
     
         return false; // Not a duplicate trip
     }
+    
 
     
 }

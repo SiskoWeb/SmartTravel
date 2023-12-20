@@ -83,6 +83,9 @@ class TripController
     //         self::sendResponse(" Bus belong this id $number_bus not avaible", 404);
     //         return;
     //     }
+
+    
+    ///check if trip dublicated by compare departure time with all time in same route
     $isDuplicated = Trip::isDuplicateTrip($road_id, $departure_time);
     if ($isDuplicated) {
     

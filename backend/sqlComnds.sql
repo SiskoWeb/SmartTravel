@@ -21,6 +21,7 @@ CREATE TABLE road (
     UNIQUE KEY unique_departure_destination (departure, destination)
 );
 
+-- //srource :https://youtu.be/jVbj72YO-8s
 
 CREATE TABLE trip (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -35,7 +36,6 @@ CREATE TABLE trip (
 );
 
 DELIMITER //
--- //srource :https://youtu.be/jVbj72YO-8s
 CREATE TRIGGER calculate_price
 BEFORE INSERT ON trip
 FOR EACH ROW
