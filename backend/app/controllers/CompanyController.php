@@ -65,6 +65,61 @@ class CompanyController
         }
     }
 
+    public static function updateAction($id)
+    {
+    
+
+       
+          //check if id exist
+        if($id === null) {
+            self::sendResponse("id required", 404);
+            return;
+        }
+
+       
+        
+        $name = isset($_POST['name']) ? $_POST['name'] : null; 
+        $img = isset($_POST['img']) ? $_POST['img'] : null;   
+
+
+        //check if id exist 
+        $company = Company::find($id);
+
+        if (!$company) {
+            self::sendResponse("there is no company under this $id", 404);
+            return;
+        }
+    //create new instanse cuz first one connot pass to it a parrms 
+        $company = new Company();   
+        if ($name !== null) {
+            $company->setId($id);
+            $company->setName($name);
+        }
+
+        if ($img !== null) {
+            $company->setImg($img);
+        }
+
+        if ($company->update()) {
+            self::sendResponse("Company updated successfully", 200);
+        } else {
+            self::sendResponse("Failed to update company", 500);
+        }
+    }
+
+//remove company by id
+    public static function destroyAction($id)
+    {
+      
+    
+        if(Company::destroy($id)) {
+            self::sendResponse("Company Deleted successfully", 200);
+        } else {
+            
+            self::sendResponse("Failed to Deleted company $id", 500);
+        }
+    }
+
     public static function sendResponse($message, $status) {
         http_response_code($status);
         echo json_encode(["message" => $message, "status" => $status]);

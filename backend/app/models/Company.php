@@ -4,7 +4,7 @@ namespace app\models;
 require 'Model.php';
 
 use app\models\Model;
-use Exception;
+
 use PDO;
 
 class Company extends Model
@@ -16,18 +16,19 @@ class Company extends Model
 
 
 
-    public function setId()
+    public function setId($id)
     {
-        return $this->id;
-    }
-    public function setName()
-    {
-        return $this->name;
+         $this->id = $id;
     }
 
-    public function setImg()
+    public function setName($name)
     {
-        return $this->img;
+        $this->name = $name;
+    }
+
+    public function setImg($img)
+    {
+        $this->img = $img;
     }
 
     public static function latest()
@@ -68,21 +69,48 @@ class Company extends Model
         return $data;
     }
 
+
+
+
         public function create()
     {
-        echo 'hello from create model';
-        $sqlState = static::database()->prepare("INSERT INTO company VALUES(null,?,?)");
-        return $sqlState->execute([
-            $this->name,
-            $this->img
-        ]);
-    }
-    // public function update($id)
-    // {
-    
-    // }
 
-    public function destroy($id)
+        $sqlState = static::database()->prepare("INSERT INTO company (name, image) VALUES (?, ?)");
+        return $sqlState->execute([$this->name, $this->img]);
+    }
+    // public function update()
+    // {
+    //     $sqlState = static::database()->prepare("UPDATE company SET name=?, image=? WHERE id=?");
+    //     return $sqlState->execute([$this->name, $this->img, $this->id]);
+    // }
+    public function update()
+    {
+       
+        $sql = "UPDATE company SET ";
+        $params = [];
+
+        if ($this->name !== null) {
+            $sql .= "name=?, ";
+            $params[] = $this->name;
+        }
+
+        if ($this->img !== null) {
+            $sql .= "image=?, ";
+            $params[] = $this->img;
+        }
+
+        // Remove the trailing comma and space from the SQL string
+        $sql = rtrim($sql, ", ");
+
+        $sql .= " WHERE id=?";
+        $params[] = $this->id;
+
+        $sqlState = static::database()->prepare($sql);
+
+        return $sqlState->execute($params);
+    }
+
+    public static function  destroy($id)
     {
         $sqlState = self::database()->prepare("DELETE FROM company WHERE id = ?");
         return $sqlState->execute([$id]);
