@@ -112,6 +112,17 @@ class Company extends Model
 
     public static function  destroy($id)
     {
+
+        //remove file image
+//     $company =   self::find($id);
+   
+// if(!unlink($company["image"]))
+// {
+//     echo "Not Working";
+// }
+// else {
+//     echo " Working";
+// }
         $sqlState = self::database()->prepare("DELETE FROM company WHERE id = ?");
         return $sqlState->execute([$id]);
     }
