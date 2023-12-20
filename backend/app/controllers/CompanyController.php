@@ -74,10 +74,10 @@ class CompanyController
     public static function updateAction($id)
     {
     
-      //list of data expect user send it 
-      $requiredFields = ['name', 'img'];
+    //   //list of data expect user send it 
+    //   $requiredFields = ['name', 'img'];
 
-      self::validator($requiredFields);
+    //   self::validator($requiredFields);
        
           //check if id exist
         if($id === null) {
