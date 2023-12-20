@@ -51,6 +51,7 @@ class CompanyController
 
     public static function createAction()
     {
+
    //list of data expect user send it 
    $requiredFields = ['name', 'img'];
 
@@ -60,9 +61,20 @@ class CompanyController
         $name = $_POST['name']; 
         $img = $_POST['img'];  
 
+
+        $fileInputName = $img; 
+        $targetDirectory = 'uploads/company/'; 
+
+        //upload img
+        $img_url = uploadImage($fileInputName, $targetDirectory);
+if (!$img_url) {
+    
+    self::sendResponse("Failed to upload image or invalid file extension.", 500);
+
+} 
         $company = new Company();
         $company->setName($name);
-        $company->setImg($img);
+        $company->setImg( $img_url);
 
         if ($company->create()) {
             self::sendResponse("Company created successfully", 201);
@@ -74,10 +86,7 @@ class CompanyController
     public static function updateAction($id)
     {
     
-    //   //list of data expect user send it 
-    //   $requiredFields = ['name', 'img'];
 
-    //   self::validator($requiredFields);
        
           //check if id exist
         if($id === null) {
@@ -106,7 +115,18 @@ class CompanyController
         }
 
         if ($img !== null) {
-            $company->setImg($img);
+            
+            $fileInputName = $img; 
+            $targetDirectory = 'uploads/company/'; 
+            
+            //upload img
+            $img_url = uploadImage($fileInputName, $targetDirectory);
+            if (!$img_url) {
+                
+                self::sendResponse("Failed to upload image or invalid file extension.", 500);
+                
+            } 
+            $company->setImg($img_url);
         }
 
         if ($company->update()) {
