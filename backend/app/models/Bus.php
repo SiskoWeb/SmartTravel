@@ -37,7 +37,7 @@ class Bus extends Model
     {
       
 
-            return static::database()->query('SELECT * FROM company order by id DESC')
+            return static::database()->query('SELECT * FROM bus order by id DESC')
             ->fetchAll(PDO::FETCH_ASSOC);
    
     }
@@ -47,7 +47,7 @@ class Bus extends Model
     public static function all()
     {
         return static::database()
-            ->query("SELECT * FROM company")
+            ->query("SELECT * FROM bus")
             ->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -62,7 +62,7 @@ class Bus extends Model
     //get element from db with condition
     public static function where($column, $value, $operator = '=')
     {
-        $sqlState = self::database()->prepare("SELECT * FROM company WHERE $column $operator ?");
+        $sqlState = self::database()->prepare("SELECT * FROM bus WHERE $column $operator ?");
         $sqlState->execute([$value]);
         $data = $sqlState->fetchAll(PDO::FETCH_ASSOC);
         if (empty($data)) {
@@ -110,7 +110,7 @@ class Bus extends Model
         // return $sqlState->execute($params);
     }
 
-    public static function  destroy($id)
+    public static function  destroy($number_bus)
     {
 
         //remove file image
@@ -123,7 +123,7 @@ class Bus extends Model
 // else {
 //     echo " Working";
 // }
-        $sqlState = self::database()->prepare("DELETE FROM company WHERE id = ?");
-        return $sqlState->execute([$id]);
+        $sqlState = self::database()->prepare("DELETE FROM bus WHERE number_bus = ?");
+        return $sqlState->execute([$number_bus]);
     }
 }

@@ -113,15 +113,15 @@ class BusController
     }
 
 //remove Bus by id
-    public static function destroyAction($id)
+    public static function destroyAction($number_bus)
     {
       
     
-        if(Bus::destroy($id)) {
+        if(Bus::destroy($number_bus)) {
             self::sendResponse("Bus Deleted successfully", 200);
         } else {
             
-            self::sendResponse("Failed to Deleted Bus $id", 500);
+            self::sendResponse("Failed to Deleted Bus $number_bus", 500);
         }
     }
 

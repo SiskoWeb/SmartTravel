@@ -42,8 +42,8 @@ if (isset($_GET['action'])) {
                  
                     
                     case 'delete':
-                        if (isset($_GET['id'])) {
-                            BusController::destroyAction($_GET['id']);
+                        if (isset($_GET['number_bus'])) {
+                            BusController::destroyAction($_GET['number_bus']);
                         } else {
                             echo "Invalid request id required";
                         }
