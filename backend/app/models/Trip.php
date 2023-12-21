@@ -93,6 +93,64 @@ class Trip extends Model
     }
 
 
+        //get element from db with condition
+        public static function filter($departure, $destination, $timeOfDay = null, $price = null, $order = 'asc')
+        {
+            $sql = "SELECT
+                trip.id AS trip_id,
+                trip.departure_time,
+                trip.arrive_time,
+                trip.seats_available,
+                trip.price,
+                trip.number_bus,
+                trip.road_id,
+                trip.timeOfDay,
+                company.id AS company_id,
+                company.name AS company_name,
+                company.image AS company_image,
+                bus.capacity AS bus_capacity,
+                road.departure AS road_departure,
+                road.destination AS road_destination,
+                road.distance_km AS road_distance_km,
+                road.distance_minute AS road_distance_minute
+            FROM
+                trip
+            JOIN bus ON trip.number_bus = bus.number_bus
+            JOIN road ON trip.road_id = road.id
+            JOIN Company ON bus.companyID = Company.id
+            WHERE
+                road.departure = ? 
+                AND road.destination = ?
+                AND DATE(trip.departure_time) = '2023-01-10'";
+            
+            $params = [$departure, $destination];
+        
+            // Add conditions for optional parameters
+            if ($price !== null) {
+                $sql .= " AND trip.price = ?";
+                $params[] = $price;
+            }
+        
+            if ($timeOfDay !== null) {
+                $sql .= " AND trip.timeOfDay = ?";
+                $params[] = $timeOfDay;
+            }
+        
+            // Add order by clause based on user's choice
+            $sql .= " ORDER BY trip.price " . ($order == 'asc' ? 'ASC' : 'DESC');
+        
+            $sqlState = self::database()->prepare($sql);
+            $sqlState->execute($params);
+        
+            $data = $sqlState->fetchAll(PDO::FETCH_ASSOC);
+        
+            if (empty($data)) {
+                return $data;
+            }
+        
+            return $data;
+        }
+        
 
 
     public function create() {

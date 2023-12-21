@@ -157,6 +157,24 @@ $updatedTrip->setRoadId($roadId);
     }
     
 
+
+
+//filters 
+public static function filtering($timeOfDay,$price,$order){
+
+$tripFiltred = Trip::filter('safi','casablanca',$timeOfDay,$price,$order);
+
+if($tripFiltred){
+    echo json_encode($tripFiltred);
+    return;
+}else{
+    echo json_encode('problem a3chiri');
+
+}
+
+}
+
+
 //remove company by id
     public static function destroyAction($id)
     {
