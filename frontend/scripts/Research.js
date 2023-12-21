@@ -52,32 +52,32 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('date').value = dateParam || '';
 
 
-    const orderBy = document.getElementById('orderBy')
-    const schedulesCheckBox = document.getElementById('schedules')
+    // const orderBy = document.getElementById('orderBy')
+    // const schedulesCheckBox = document.getElementById('schedules')
 
-    /// filter when user clikc sorted 
-    orderBy.addEventListener('click', () => {
-        if (orderBy.checked) {
-            orderParam = orderBy.value
-        } else {
-            orderParam = 'DESC'
-        }
+    // /// filter when user clikc sorted 
+    // orderBy.addEventListener('click', () => {
+    //     if (orderBy.checked) {
+    //         orderParam = orderBy.value
+    //     } else {
+    //         orderParam = 'DESC'
+    //     }
 
-        onSubmit()
-    })
+    //     onSubmit()
+    // })
 
 
 
-    // filter by Schedules
-    schedulesCheckBox.addEventListener('click', () => {
-        if (schedulesCheckBox.checked) {
-            timeParam = schedulesCheckBox.value
-        } else {
-            timeParam = 'morning'
-        }
+    // // filter by Schedules
+    // schedulesCheckBox.addEventListener('click', () => {
+    //     if (schedulesCheckBox.checked) {
+    //         timeParam = schedulesCheckBox.value
+    //     } else {
+    //         timeParam = 'morning'
+    //     }
 
-        onSubmit()
-    })
+    //     onSubmit()
+    // })
 
 
 
@@ -167,15 +167,20 @@ document.addEventListener('DOMContentLoaded', async function () {
             queryParams.set('maxPrice', maxPriceParam);
         }
 
-        if (orderBy.value !== null) {
-            queryParams.set('order', orderBy.value);
+        if (maxPriceParam !== null) {
+            queryParams.set('maxPrice', maxPriceParam);
         }
+        // if (orderBy.value !== null) {
+        //     queryParams.set('order', orderBy.value);
+        // }
 
-        if (schedulesCheckBox.value !== null) {
-            queryParams.set('time', schedulesCheckBox.value);
+        // if (schedulesCheckBox.value !== null) {
+        //     queryParams.set('time', schedulesCheckBox.value);
+        // }
+
+        if (timeParam !== null) {
+            queryParams.set('time', timeParam);
         }
-
-
         // Update the URL without reloading the page
         history.pushState({}, '', '?' + queryParams.toString());
 
@@ -199,6 +204,35 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
 
+
+
+
+
+
+
+
+
+    // Get all radio buttons with the name 'time'
+    const timeRadioButtons = document.querySelectorAll('input[name="time"]');
+
+    // Add event listener to each radio button
+    timeRadioButtons.forEach((radioButton) => {
+        radioButton.addEventListener('change', function () {
+            // Uncheck all other radio buttons when a radio button is checked
+            timeRadioButtons.forEach((otherRadioButton) => {
+                if (otherRadioButton !== radioButton) {
+                    otherRadioButton.checked = false;
+                }
+            });
+            if (radioButton.checked && radioButton.value !== 'all') {
+                timeParam = radioButton.value
+            } else {
+                timeParam = null
+            }
+
+            onSubmit()
+        });
+    });
 
 
 
