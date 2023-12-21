@@ -70,8 +70,8 @@ class TripController
     // require 'app/models/Road.php';
     // require 'app/models/Bus.php';
 
-    //     //check if road avaible
-    //     $road = Trip::find($road_id);
+        //check if road avaible
+    //     $road = Road::find($road_id);
     //     if (!$road) {
     //         self::sendResponse(" road belong this id $road_id not avaible ", 404);
     //         return;
