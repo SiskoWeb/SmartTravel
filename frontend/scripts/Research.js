@@ -8,12 +8,16 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
+
+
+
+
     // Fetch cities and populate the dropdowns
     try {
-        const departure = document.getElementById('departure');
-        const destination = document.getElementById('destination');
-        const citiesPromise = await fetch('cities.json');
-        const data = await citiesPromise.json();
+        let departure = document.getElementById('departure');
+        let destination = document.getElementById('destination');
+        let citiesPromise = await fetch('cities.json');
+        let data = await citiesPromise.json();
 
         data.forEach(city => {
             // loop through list cities and add it as option
@@ -26,15 +30,19 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
+    const orderBy = document.getElementById('orderBy')
 
     // Get query parameters from the URLl
-    const urlParams = new URLSearchParams(window.location.search);
-    const dateParam = urlParams.get('date');
-    const departureParam = urlParams.get('departure');
-    const destinationParam = urlParams.get('destination');
-    const minPriceParam = urlParams.get('minPrice') ?? null;
-    const maxPriceParam = urlParams.get('maxPrice') ?? null;
-    const orderParam = urlParams.get('order') ?? null;
+    let urlParams = new URLSearchParams(window.location.search);
+    let dateParam = urlParams.get('date');
+    let departureParam = urlParams.get('departure');
+    let destinationParam = urlParams.get('destination');
+    let minPriceParam = urlParams.get('minPrice') || null;
+    let maxPriceParam = urlParams.get('maxPrice') || null;
+    let orderParam = urlParams.get('order') || null;
+    orderParam = orderBy.checked == true ? orderBy.value : 'DESC';
+    console.log(orderBy.checked)
+
 
     // Set default values in form inputs
     document.getElementById('departure').value = departureParam || '';
@@ -42,8 +50,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('date').value = dateParam || '';
 
 
-
-
+    /// filter
+    orderBy.addEventListener('click', () => {
+        orderParam = orderBy.value
+        onSubmit()
+    })
 
 
     // function to build the URL based on the form inputs
@@ -52,10 +63,27 @@ document.addEventListener('DOMContentLoaded', async function () {
             date: document.getElementById('date').value,
             departure: departure.value,
             destination: destination.value,
-            // minPrice: minPriceParam,
-            // maxPrice: maxPriceParam,
-            // order: orderParam
+
         });
+        if (minPriceParam !== null) {
+            queryParams.set('minPrice', minPriceParam);
+        }
+
+        if (maxPriceParam !== null) {
+            queryParams.set('maxPrice', maxPriceParam);
+        }
+
+
+        if (orderParam !== null) {
+            queryParams.set('order', orderParam);
+        }
+
+
+
+
+
+        // Update the URL without reloading the page
+        // history.pushState({}, '', '?' + queryParams.toString());
         return `http://localhost/travel/backend/trip.php?action=filter&${queryParams.toString()}`;
     }
 
@@ -96,12 +124,23 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (!validateInputs(departureValue, destinationValue, date, error_msg)) {
             return;
         }
-
         const queryParams = new URLSearchParams({
-            date: date,
-            departure: departureValue,
-            destination: destinationValue
+            date: document.getElementById('date').value,
+            departure: departure.value,
+            destination: destination.value,
+
         });
+        if (minPriceParam !== null) {
+            queryParams.set('minPrice', minPriceParam);
+        }
+
+        if (maxPriceParam !== null) {
+            queryParams.set('maxPrice', maxPriceParam);
+        }
+
+        if (orderBy.value !== null) {
+            queryParams.set('order', orderBy.value);
+        }
 
 
         // Update the URL without reloading the page
@@ -125,6 +164,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             // Handle errors
         }
     }
+
+
+
 
 
 
@@ -156,3 +198,5 @@ document.addEventListener('DOMContentLoaded', async function () {
         return true;
     }
 });
+
+
