@@ -7,7 +7,7 @@
 
         </ul>
         <ul
-            class=" flex justify-between gap-8 border border-solid border-gray-500 border-opacity-25 px-1.5 py-1    rounded-md	">
+            class=" flex justify-between gap-4 border border-solid border-gray-500 border-opacity-25 px-1.5 py-1    rounded-md	">
 
             <li>
 
@@ -16,11 +16,12 @@
                 <a>Sign In</a>
 
             </li>
+            /
             <li>
 
                 <i class="fa-solid fa-arrow-right-to-bracket text-green-600"></i>
 
-                <a>Sign In</a>
+                <a>Sign up</a>
             </li>
         </ul>
     </div>
@@ -55,7 +56,7 @@
                 </svg>
             </button>
         </div>
-        <div class="items-center justify-between w-full lg:flex lg:w-auto lg:order-1 hidden" id="mobile-menu-2">
+        <div class="items-center justify-between w-full lg:flex lg:w-auto lg:order-1 hidden " id="mobile-menu-2">
             <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                 <li>
                     <a href="#"

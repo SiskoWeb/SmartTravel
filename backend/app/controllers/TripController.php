@@ -163,14 +163,15 @@ $updatedTrip->setRoadId($roadId);
 public static function filtereAction($departure, $destination, $date, $timeOfDay, $minPrice , $maxPrice , $order,){
 
 $tripFiltred = Trip::filter($departure,$destination,$date,$timeOfDay,$minPrice , $maxPrice ,$order);
+echo json_encode($tripFiltred);
+return;
+// if($tripFiltred){
+//     echo json_encode($tripFiltred);
+//     return;
+// }else{
+//     echo json_encode('problem a3chiri');
 
-if($tripFiltred){
-    echo json_encode($tripFiltred);
-    return;
-}else{
-    echo json_encode('problem a3chiri');
-
-}
+// }
 
 }
 
