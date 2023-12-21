@@ -10,16 +10,30 @@ if (isset($_GET['action'])) {
     $action = $_GET['action'];
     switch ($action) {
         case 'filter':
-            if (isset($_GET['query'])) {
-                TripController::filtering($_GET['query']);
-            } else {
-                echo "Invalid request id required";
+
+                // 3 first query  are requered 
+                if (isset($_GET['departure']) && isset($_GET['destination']) && isset($_GET['date'])) {
+                TripController::filtereAction(
+                    $_GET['departure'],
+                    $_GET['destination'],
+                    $_GET['date'],
+                    $_GET['time'] ?? null,     
+                    $_GET['minPrice'] ?? null,  
+                    $_GET['maxPrice'] ?? null,
+                    $_GET['order']  ?? null    
+                );            
+            }else {
+                echo "query is required";
             }
-          
             break;
+
+
+
         case 'list':
             TripController::indexAction();
             break;
+
+
 
         case 'show':
             if (isset($_GET['id'])) {
@@ -29,13 +43,19 @@ if (isset($_GET['action'])) {
             }
             break;
 
+
+
         case 'latest':
             TripController::latest();
             break;
 
+
+
             case 'create':
                 TripController::createAction();
                 break;
+
+
 
                 case 'update':
                     if (isset($_GET['id'])) {
@@ -48,6 +68,7 @@ if (isset($_GET['action'])) {
                     break;
                  
                     
+
                     case 'delete':
                         if (isset($_GET['id'])) {
                             TripController::destroyAction($_GET['id']);
@@ -55,6 +76,8 @@ if (isset($_GET['action'])) {
                             echo "Invalid request id required";
                         }
                         break;
+
+                        
         default:
             echo "Page Not found 404";
             break;

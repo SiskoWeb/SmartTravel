@@ -94,7 +94,7 @@ class Trip extends Model
 
 
         //get element from db with condition
-        public static function filter($departure, $destination, $timeOfDay = null, $price = null, $order = 'asc')
+        public static function filter($departure, $destination,$Date, $timeOfDay , $minPrice = null, $maxPrice = null,  $order = 'asc')
         {
             $sql = "SELECT
                 trip.id AS trip_id,
@@ -121,14 +121,19 @@ class Trip extends Model
             WHERE
                 road.departure = ? 
                 AND road.destination = ?
-                AND DATE(trip.departure_time) = '2023-01-10'";
+                AND DATE(trip.departure_time) = ?";
             
-            $params = [$departure, $destination];
+            $params = [$departure, $destination,$Date];
         
             // Add conditions for optional parameters
-            if ($price !== null) {
-                $sql .= " AND trip.price = ?";
-                $params[] = $price;
+            if ($minPrice !== null) {
+                $sql .= " AND trip.price >= ?";
+                $params[] = $minPrice;
+            }
+        
+            if ($maxPrice !== null) {
+                $sql .= " AND trip.price <= ?";
+                $params[] = $maxPrice;
             }
         
             if ($timeOfDay !== null) {
@@ -136,8 +141,8 @@ class Trip extends Model
                 $params[] = $timeOfDay;
             }
         
-            // Add order by clause based on user's choice
-            $sql .= " ORDER BY trip.price " . ($order == 'asc' ? 'ASC' : 'DESC');
+            // Add order by clause based on users choice
+            $sql .= " ORDER BY trip.price " . ($order ? $order :  'DESC');
         
             $sqlState = self::database()->prepare($sql);
             $sqlState->execute($params);
