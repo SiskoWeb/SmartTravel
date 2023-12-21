@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
-    const orderBy = document.getElementById('orderBy')
+
 
     // Get query parameters from the URLl
     let urlParams = new URLSearchParams(window.location.search);
@@ -40,8 +40,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     let minPriceParam = urlParams.get('minPrice') || null;
     let maxPriceParam = urlParams.get('maxPrice') || null;
     let orderParam = urlParams.get('order') || null;
-    orderParam = orderBy.checked == true ? orderBy.value : 'DESC';
-    console.log(orderBy.checked)
+    let timeParam = urlParams.get('time') || null;
+
+
+
 
 
     // Set default values in form inputs
@@ -50,11 +52,33 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('date').value = dateParam || '';
 
 
-    /// filter
+    const orderBy = document.getElementById('orderBy')
+    const schedulesCheckBox = document.getElementById('schedules')
+
+    /// filter when user clikc sorted 
     orderBy.addEventListener('click', () => {
-        orderParam = orderBy.value
+        if (orderBy.checked) {
+            orderParam = orderBy.value
+        } else {
+            orderParam = 'DESC'
+        }
+
         onSubmit()
     })
+
+
+
+    // filter by Schedules
+    schedulesCheckBox.addEventListener('click', () => {
+        if (schedulesCheckBox.checked) {
+            timeParam = schedulesCheckBox.value
+        } else {
+            timeParam = 'morning'
+        }
+
+        onSubmit()
+    })
+
 
 
     // function to build the URL based on the form inputs
@@ -74,10 +98,15 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
 
 
+
+
         if (orderParam !== null) {
             queryParams.set('order', orderParam);
         }
 
+        if (timeParam !== null) {
+            queryParams.set('time', timeParam);
+        }
 
 
 
@@ -140,6 +169,10 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         if (orderBy.value !== null) {
             queryParams.set('order', orderBy.value);
+        }
+
+        if (schedulesCheckBox.value !== null) {
+            queryParams.set('time', schedulesCheckBox.value);
         }
 
 
