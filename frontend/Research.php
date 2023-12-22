@@ -30,11 +30,31 @@
 <p class='font-bold'>Filter</p><button class="border-none ourline-none bg-transparent">Reset All</button>
 
 </div>
+
 <hr>
- 
+<!-- filer sorting  -->
+<div class=" py-6">
+<p class='font-bold py-4'>Company</p>
+
+
+
+</div>
+<hr>
+<!-- filer sorting  -->
+<div class=" py-6">
+<p class='font-bold py-4'>Price</p>
+
+<div class="flex gap-x-4">
+
+<input type="number" placeholder="From" class="w-full py-2 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-green-500 ">
+<input type="number" placeholder="To" class="w-full py-2 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-green-500 ">
+</div>
+
+</div>
+<hr>
 <!-- filer Schedules  -->
 <div class=" py-6">
-<p class='font-bold py-4'>Sorting</p>
+<p class='font-bold py-4' >Sorting</p>
 
 <div >
 <select id="person" class="w-full py-2 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-green-500">
@@ -73,14 +93,6 @@
         <span class="bg-[#f6f6f7] rounded-md w-2/2 px-2 flex gap-x-3 items-center"><i class="fa-regular fa-clock"></i>Night</span>
     </label>
 </div>
-
-
-</div>
-<hr>
-<!-- filer sorting  -->
-<div class=" py-6">
-<p class='font-bold py-4'>Sorting</p>
-
 
 
 </div>
