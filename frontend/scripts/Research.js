@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     let dateParam = urlParams.get('date');
     let departureParam = urlParams.get('departure');
     let destinationParam = urlParams.get('destination');
-    let minPriceParam = urlParams.get('minPrice') || null;
+    let minPriceParam = urlParams.get('minPrice') || 0;
     let maxPriceParam = urlParams.get('maxPrice') || null;
     let orderParam = urlParams.get('order') || null;
     let timeParam = urlParams.get('time') || null;
@@ -52,32 +52,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('date').value = dateParam || '';
 
 
-    // const orderBy = document.getElementById('orderBy')
-    // const schedulesCheckBox = document.getElementById('schedules')
-
-    // /// filter when user clikc sorted 
-    // orderBy.addEventListener('click', () => {
-    //     if (orderBy.checked) {
-    //         orderParam = orderBy.value
-    //     } else {
-    //         orderParam = 'DESC'
-    //     }
-
-    //     onSubmit()
-    // })
-
-
-
-    // // filter by Schedules
-    // schedulesCheckBox.addEventListener('click', () => {
-    //     if (schedulesCheckBox.checked) {
-    //         timeParam = schedulesCheckBox.value
-    //     } else {
-    //         timeParam = 'morning'
-    //     }
-
-    //     onSubmit()
-    // })
 
 
 
@@ -100,13 +74,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
-        if (orderParam !== null) {
-            queryParams.set('order', orderParam);
-        }
+        // if (orderParam !== null) {
+        //     queryParams.set('order', orderParam);
+        // }
 
-        if (timeParam !== null) {
-            queryParams.set('time', timeParam);
-        }
+        // if (timeParam !== null) {
+        //     queryParams.set('time', timeParam);
+        // }
 
 
 
@@ -134,6 +108,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         // Handle the data as needed
     } catch (error) {
         console.error("Initial fetch failed:", error);
+        loader.classList.replace("flex", "hidden")
+
+        buildMsgNoTrip()
         // Handle errors
 
     }
@@ -163,6 +140,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             destination: destination.value,
 
         });
+
+
+
+
+        // Update the URL without reloading the page
+        history.pushState({}, '', '?' + queryParams.toString());
+
+        //add  filter values to bring data friltred from endpoint
         if (minPriceParam !== null) {
             queryParams.set('minPrice', minPriceParam);
         }
@@ -171,23 +156,12 @@ document.addEventListener('DOMContentLoaded', async function () {
             queryParams.set('maxPrice', maxPriceParam);
         }
 
-        if (maxPriceParam !== null) {
-            queryParams.set('maxPrice', maxPriceParam);
+        if (orderParam !== null) {
+            queryParams.set('order', orderParam);
         }
-        // if (orderBy.value !== null) {
-        //     queryParams.set('order', orderBy.value);
-        // }
-
-        // if (schedulesCheckBox.value !== null) {
-        //     queryParams.set('time', schedulesCheckBox.value);
-        // }
-
         if (timeParam !== null) {
             queryParams.set('time', timeParam);
         }
-        // Update the URL without reloading the page
-        history.pushState({}, '', '?' + queryParams.toString());
-
 
         loader.classList.replace("hidden", "flex")
         // Fetch data with the updated URL 
@@ -206,7 +180,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             // Handle the data as needed
         } catch (error) {
             console.error("Fetch failed:", error);
+            loader.classList.replace("flex", "hidden")
 
+            buildMsgNoTrip()
             // Handle errors
         }
 
@@ -246,6 +222,45 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
+
+
+
+    // Get all radio buttons with the name 'time'
+    const minPriceInput = document.getElementById('minPrice');
+    const maxPriceInput = document.getElementById('maxPrice');
+
+    const onInputPriceChangeDebounced = debounce(onSubmit, 500);
+
+    maxPriceInput.addEventListener('change', () => {
+
+        maxPriceParam = maxPriceInput.value
+        onInputPriceChangeDebounced()
+    })
+
+
+    // debounce function
+    function debounce(func, wait) {
+        let timeout;
+        return function (...args) {
+            const context = this;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                func.apply(context, args);
+            }, wait);
+        };
+    }
+
+
+
+    // this is for sorting
+    const orderByBtn = document.getElementById('orderBy');
+    // Add event listener to each radio button
+    orderByBtn.addEventListener('change', () => {
+        orderParam = orderByBtn.value
+        onSubmit()
+    })
+
+
     //this function required arry of trips
     // rebuild list of trip filter change or page load first time
     function builderTrips(data) {
@@ -253,6 +268,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const card_trips = document.getElementById('card_trips')
 
         card_trips.innerHTML = ''
+        if (data.length <= 0) return buildMsgNoTrip()
         //loop through data trips
         data.forEach((trip) => {
             const tripElement = document.createElement('div')
@@ -266,7 +282,21 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
+    function buildMsgNoTrip() {
+        const card_trips = document.getElementById('card_trips')
+        card_trips.innerHTML = `  <div class="text-center h-screen bg-white rounded-md p-4 pt-16">
+    <h1 class="mb-4 text-6xl font-semibold text-green-600">404</h1>
+    <p class="mb-4 text-lg text-gray-600">Oops! Looks like you're lost.</p>
+    <div class="animate-bounce">
+    <img class="mx-auto h-32 w-32 text-green-600" src='https://www.markoub.ma/Content/front/new/img/0voyage.svg'>
+     
+    </div>
+    <p class="mt-4 text-gray-600">Let's get you back <a href="http://localhost/travel/frontend/" class="text-green-500">home</a>.</p>
+  </div>
+</div>`
 
+
+    }
 
     // function to add an option <citeis> to a select element
     function addOptionToSelect(selectElement, optionValue) {

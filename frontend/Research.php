@@ -54,8 +54,8 @@
 
 <div class="flex gap-x-4">
 
-<input type="number" placeholder="From" class="w-full py-2 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-green-500 ">
-<input type="number" placeholder="To" class="w-full py-2 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-green-500 ">
+<input id="minPrice" type="number" placeholder="From" class="w-full py-2 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-green-500 ">
+<input id="maxPrice"  type="number" placeholder="To" class="w-full py-2 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-green-500 ">
 </div>
 
 </div>
@@ -65,10 +65,10 @@
 <p class='font-bold py-4' >Sorting</p>
 
 <div >
-<select id="person" class="w-full py-2 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-green-500">
+<select id="orderBy" class="w-full py-2 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-green-500">
   <option  class="text-gray-400" value="" disabled selected>sorting By</option>
-  <option value="DESC">Lower To Higher Price</option>
-  <option value="ASC">Higher To Lower Price</option>
+  <option value="DESC">Price: High to Low</option>
+  <option value="ASC">Price: Low to High</option>
 
 </select> 
 
@@ -123,33 +123,8 @@
     <?php require('components/loader.php')?>
 
 <script src="scripts/Research.js"></script> 
-<script>
-document.addEventListener('DOMContentLoaded',  function () {
-let index = 0;
-    const slider_hero = document.getElementById('slider_hero')
-    
-    const img_url = [
-        'assets/heroResearch.png',
-        'assets/heroResearch.jpg'
-    ]
-    
+<script src="scripts/slider.js"></script> 
 
-    function sliderHeroFun(index = 0){
-        slider_hero.style.backgroundImage = `url(${img_url[index]})`;
-    }
 
-    setInterval(()=>{
-        index = index + 1
-        console.log(index)
-        if(index => img_url.length){
-            index = 0
-        }
-        else{
-
-            sliderHeroFun(index)
-        }
-    },1000)
-})
-</script>
 </body>
 </html>
