@@ -1,6 +1,6 @@
 
       
-        <form class="bg-white rounded-lg shadow-lg p-6 w-full"> 
+        <form class="bg-white rounded-lg  p-6 w-full"> 
             <div class="grid grid-cols-2 gap-6">
                 <div class="col-span-2 sm:col-span-1 ">
                 <select id="departure" class="w-full py-2 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-green-500 ">
@@ -30,3 +30,4 @@
                 <button type="button"  id="findTripBtn" class="w-full bg-green-700 hover:bg-green-600 text-white font-medium py-1 rounded-lg focus:outline-none">Find Tickets</button>
             </div>
         </form>
+   

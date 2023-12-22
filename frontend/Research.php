@@ -16,14 +16,22 @@
 </head>
 <?php require('components/navbar.php')?>
 <body class="bg-[#f6f6f7]">
-<section class="bg-cover bg-center relative  w-full h-[300px] flex items-end justify-center" style="background-image: url(assets/heroResearch.png)">
-       <div class="bg-white rounded-tr-md rounded-tl-md w-3/4 h-3/4">
-       <?php require('components/form.php')?>
+
+
+
+<!-- start form section -->
+<section id="slider_hero" class="bg-cover bg-center relative   h-[300px] flex items-end justify-center" style="background-image: url(assets/heroResearch.jpg)">
+       <div class="bg-white rounded-tr-md rounded-tl-md w-full h-3/4 flex gap-x-10    max-w-screen-xl  px-4 mx-auto">
+       <?php require('components/formSearch.php')?>
        </div>
     </section>
 
-    <section class="flex gap-x-10   items-center justify-start pt-40 lg:justify-between flex-col lg:flex-row  max-w-screen-xl h-screen px-4 mx-auto">
+<!-- end form section -->
 
+    
+
+<!-- start list of trips section -->
+    <section class="flex gap-10  h-auto items-start justify-start pt-10 lg:justify-between flex-col lg:flex-row  max-w-screen-xl min-h-screen px-4 mx-auto">
 
     <div class="bg-white basis-1/4	rounded-md w-full h-screen p-8 mx-auto">
 <div class=" flex justify-between  ">
@@ -97,13 +105,19 @@
 
 </div>
 
-
-
 </div>
-    <div class="bg-white rounded-md basis-3/4	w-full h-screen">
 
+
+    <div class="  basis-3/4	w-full h-auto flex flex-col gap-y-4">
+    <?php require('components/card.php')?>
+    <?php require('components/card.php')?>
+    <?php require('components/card.php')?>
+    <?php require('components/card.php')?>
+    
 </div>
     </section>
+<!-- start list of trips section -->
+
 
     <!-- /*<input id="orderBy" type="checkbox"  value="ASC" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
 
@@ -111,6 +125,28 @@
     */ -->
 
 <script src="scripts/Research.js"></script> 
+<script>
+document.addEventListener('DOMContentLoaded',  function () {
+let index = 0;
+    const slider_hero = document.getElementById('slider_hero')
+    
+    const img_url = [
+        'assets/heroResearch.png',
+        'assets/heroResearch.jpg'
+    ]
+    
 
+    function sliderHeroFun(index = 0){
+        slider_hero.style.backgroundImage = `url(${img_url[index]})`;
+    }
+
+    setInterval(()=>{
+        index++
+        console.log(index)
+        if(index => img_url.length) return index = 0;
+        sliderHeroFun(index)
+    },1000)
+})
+</script>
 </body>
 </html>
