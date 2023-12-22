@@ -15,7 +15,7 @@
     </style>
 </head>
 <?php require('components/navbar.php')?>
-<body class="bg-[#f6f6f7]">
+<body class="bg-[#f6f6f7] relative ">
 
 
 
@@ -108,11 +108,8 @@
 </div>
 
 
-    <div class="  basis-3/4	w-full h-auto flex flex-col gap-y-4">
-    <?php require('components/card.php')?>
-    <?php require('components/card.php')?>
-    <?php require('components/card.php')?>
-    <?php require('components/card.php')?>
+    <div id="card_trips" class="  basis-3/4	w-full h-auto flex flex-col gap-y-4">
+
     
 </div>
     </section>
@@ -123,6 +120,7 @@
 
     <input id="schedules" type="checkbox"  value="night" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
     */ -->
+    <?php require('components/loader.php')?>
 
 <script src="scripts/Research.js"></script> 
 <script>
@@ -141,10 +139,15 @@ let index = 0;
     }
 
     setInterval(()=>{
-        index++
+        index = index + 1
         console.log(index)
-        if(index => img_url.length) return index = 0;
-        sliderHeroFun(index)
+        if(index => img_url.length){
+            index = 0
+        }
+        else{
+
+            sliderHeroFun(index)
+        }
     },1000)
 })
 </script>

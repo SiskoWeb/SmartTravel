@@ -26,8 +26,8 @@
 </select>                </div>
             </div>
             
-            <div class="mt-4">
-                <button type="button"  id="findTripBtn" class="w-full bg-green-700 hover:bg-green-600 text-white font-medium py-1 rounded-lg focus:outline-none">Find Tickets</button>
+            <div class="mt-4 flex justify-center">
+                <button type="button"  id="findTripBtn" class="w-[150px] bg-green-700 hover:bg-green-600 text-white font-medium py-1 rounded-lg focus:outline-none">Find Tickets</button>
             </div>
         </form>
    
