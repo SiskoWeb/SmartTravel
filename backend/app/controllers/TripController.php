@@ -160,9 +160,9 @@ $updatedTrip->setRoadId($roadId);
 
 
 //filters 
-public static function filtereAction($departure, $destination, $date, $timeOfDay, $minPrice , $maxPrice , $order,){
+public static function filtereAction($departure, $destination, $date, $timeOfDay, $minPrice , $maxPrice , $order,$company){
 
-$tripFiltred = Trip::filter($departure,$destination,$date,$timeOfDay,$minPrice , $maxPrice ,$order);
+$tripFiltred = Trip::filter($departure,$destination,$date,$timeOfDay,$minPrice , $maxPrice ,$order,$company);
 echo json_encode($tripFiltred);
 return;
 // if($tripFiltred){

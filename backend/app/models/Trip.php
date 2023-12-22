@@ -94,7 +94,7 @@ class Trip extends Model
 
 
         //get element from db with condition
-        public static function filter($departure, $destination,$Date, $timeOfDay , $minPrice = null, $maxPrice = null,  $order = 'asc')
+        public static function filter($departure, $destination,$Date, $timeOfDay , $minPrice = null, $maxPrice = null,  $order = null,$company)
         {
             $sql = "SELECT
                 trip.id AS trip_id,
@@ -139,6 +139,10 @@ class Trip extends Model
             if ($timeOfDay !== null) {
                 $sql .= " AND trip.timeOfDay = ?";
                 $params[] = $timeOfDay;
+            }
+            if ($company !== null) {
+                $sql .= " AND company.name = ?";
+                $params[] = $company;
             }
         
             // Add order by clause based on users choice

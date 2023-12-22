@@ -35,7 +35,7 @@
 
     <div class="bg-white basis-1/4	rounded-md w-full h-screen p-8 mx-auto">
 <div class=" flex justify-between  ">
-<p class='font-bold'>Filter</p><button class="border-none ourline-none bg-transparent">Reset All</button>
+<p class='font-bold'>Filter</p><button id="restBtn" class="border-none ourline-none bg-transparent">Reset All</button>
 
 </div>
 
@@ -44,7 +44,13 @@
 <div class=" py-6">
 <p class='font-bold py-4'>Company</p>
 
+<div id="companySelector" class="flex flex-col gap-4">
+    <label for="allcompany" class="flex items-center gap-x-4 text-gray-400">
+        <input id="allcompany" type="radio" name="company" value="all" class="accent-green-600 border-2 w-4 h-4 text-green-600 bg-gray-100 border-green-300 rounded focus:ring-green-600" checked>
+        <span class="bg-[#f6f6f7] rounded-md w-2/2 px-2 flex gap-x-3 items-center">ALL</span>
+    </label>
 
+</div>
 
 </div>
 <hr>
@@ -81,8 +87,8 @@
 <p class='font-bold py-4'>Schedules</p>
 
 <div>
-    <label for="all" class="flex items-center gap-x-4 text-gray-400">
-        <input id="all" type="radio" name="time" value="all" class="accent-green-600 border-2 w-4 h-4 text-green-600 bg-gray-100 border-green-300 rounded focus:ring-green-600" checked>
+    <label for="alltime" class="flex items-center gap-x-4 text-gray-400">
+        <input id="alltime" type="radio" name="time" value="all" class="accent-green-600 border-2 w-4 h-4 text-green-600 bg-gray-100 border-green-300 rounded focus:ring-green-600" checked>
         <span class="bg-[#f6f6f7] rounded-md w-2/2 px-2 flex gap-x-3 items-center"><i class="fa-regular fa-clock"></i>All</span>
     </label>
 
@@ -123,7 +129,10 @@
     <?php require('components/loader.php')?>
 
 <script src="scripts/Research.js"></script> 
+<script src="lib/debounce.js"></script> 
+<!-- <script src="scripts/onFilter.js"></script>  -->
 <script src="scripts/slider.js"></script> 
+
 
 
 </body>

@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
-
+    document.getElementById('restBtn').addEventListener('click', onSubmit)
 
 
 
@@ -28,6 +28,20 @@ document.addEventListener('DOMContentLoaded', async function () {
         console.error("Error fetching cities:", error);
     }
 
+    // Fetch cities and populate the dropdowns
+    try {
+
+        let companiesPromise = await fetch('http://localhost/travel/backend/company.php');
+        let data = await companiesPromise.json();
+
+
+        // loop through list cities and add it as option
+        addOptionToSelectCompany(data)
+
+    } catch (error) {
+        console.error("Error fetching companies:", error);
+    }
+
 
 
 
@@ -41,6 +55,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     let maxPriceParam = urlParams.get('maxPrice') || null;
     let orderParam = urlParams.get('order') || null;
     let timeParam = urlParams.get('time') || null;
+    let companyParam = urlParams.get('company') || null;
 
 
 
@@ -70,23 +85,17 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (maxPriceParam !== null) {
             queryParams.set('maxPrice', maxPriceParam);
         }
+        if (orderParam !== null) {
+            queryParams.set('order', orderParam);
+        }
+        if (timeParam !== null) {
+            queryParams.set('time', timeParam);
+        }
 
-
-
-
-        // if (orderParam !== null) {
-        //     queryParams.set('order', orderParam);
-        // }
-
-        // if (timeParam !== null) {
-        //     queryParams.set('time', timeParam);
-        // }
-
-
-
-
-        // Update the URL without reloading the page
-        // history.pushState({}, '', '?' + queryParams.toString());
+        if (companyParam !== null) {
+            queryParams.set('company', companyParam);
+            console.log('added it')
+        }
         return `http://localhost/travel/backend/trip.php?action=filter&${queryParams.toString()}`;
     }
 
@@ -104,6 +113,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const data = await response.json();
         console.log("Initial fetch successful. Data:", data);
         builderTrips(data)
+
         loader.classList.replace("flex", "hidden")
         // Handle the data as needed
     } catch (error) {
@@ -144,8 +154,11 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
+
+
         // Update the URL without reloading the page
         history.pushState({}, '', '?' + queryParams.toString());
+
 
         //add  filter values to bring data friltred from endpoint
         if (minPriceParam !== null) {
@@ -161,6 +174,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
         if (timeParam !== null) {
             queryParams.set('time', timeParam);
+        }
+
+        if (companyParam !== null) {
+            queryParams.set('company', companyParam);
+            console.log('added it')
         }
 
         loader.classList.replace("hidden", "flex")
@@ -221,6 +239,30 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
+    // Get all radio buttons with the name 'time'
+    const companyRadioButtons = document.querySelectorAll('input[name="company"]');
+
+    // Add event listener to each radio button
+    companyRadioButtons.forEach((radioButton) => {
+        radioButton.addEventListener('change', function () {
+            // Uncheck all other radio buttons when a radio button is checked
+            companyRadioButtons.forEach((otherRadioButton) => {
+                if (otherRadioButton !== radioButton) {
+                    otherRadioButton.checked = false;
+                }
+            });
+            if (radioButton.checked && radioButton.value !== 'all') {
+                companyParam = radioButton.value
+            } else {
+                companyParam = null
+            }
+
+            onSubmit()
+        });
+    });
+
+
+
 
 
 
@@ -229,7 +271,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     const minPriceInput = document.getElementById('minPrice');
     const maxPriceInput = document.getElementById('maxPrice');
 
+    const onInputMinPriceChangeDebounced = debounce(onSubmit, 500);
     const onInputPriceChangeDebounced = debounce(onSubmit, 500);
+
 
     maxPriceInput.addEventListener('change', () => {
 
@@ -238,17 +282,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     })
 
 
-    // debounce function
-    function debounce(func, wait) {
-        let timeout;
-        return function (...args) {
-            const context = this;
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                func.apply(context, args);
-            }, wait);
-        };
-    }
+    minPriceInput.addEventListener('change', () => {
+
+        minPriceParam = minPriceInput.value
+        onInputMinPriceChangeDebounced()
+    })
+
 
 
 
@@ -259,6 +298,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         orderParam = orderByBtn.value
         onSubmit()
     })
+
+
+
 
 
     //this function required arry of trips
@@ -307,6 +349,26 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
 
+
+    function addOptionToSelectCompany(companyData) {
+        const companyOptions = document.getElementById('companySelector');
+        console.log(companyData)
+        companyData.forEach(company => {
+            const optionLabel = document.createElement('label');
+            const companyId = company.name + company.id;
+
+            optionLabel.setAttribute('for', companyId);
+            optionLabel.classList.add('flex', 'items-center', 'gap-x-4', 'text-gray-400');
+            optionLabel.innerHTML = `
+                <input id="${company.name}" type="radio" name="company" value="${company.name}" class="accent-green-600 border-2 w-4 h-4 text-green-600 bg-gray-100 border-green-300 rounded focus:ring-green-600">
+                <span class="bg-[#f6f6f7] rounded-md w-2/2 px-2 flex gap-x-3 items-center">
+                    <img src="http://localhost/travel/backend/${company.image}" class="w-6 h-6">
+                    ${company.name}
+                </span>`;
+
+            companyOptions.appendChild(optionLabel);
+        });
+    }
 
     // function for input validation
     function validateInputs(departure, destination, date, error_msg) {

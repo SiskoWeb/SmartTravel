@@ -20,7 +20,8 @@ if (isset($_GET['action'])) {
                     $_GET['time'] ?? null,     
                     $_GET['minPrice'] ?? null,  
                     $_GET['maxPrice'] ?? null,
-                    $_GET['order']  ?? null    
+                    $_GET['order']  ?? null   ,
+                    $_GET['company']  ?? null  
                 );            
             }else {
                 echo "query is required";
