@@ -1,18 +1,20 @@
-<article id="ticket-wrapper" class="bg-white w-full h-[250px] rounded-md p-4 mx-auto ">
-<div id="ticket-wrapper2" class=" flex  gap-x-2 p-4 mx-auto justify-between h-[80%] items-center" >
-<div class=" ticket-wrapper-info flex-col justify-between gap-y-6">
+<article id="ticket-wrapper" class="bg-white w-full  h-auto rounded-md p-4 mx-auto ">
+
+
+<div id="ticket-wrapper2" class=" flex  gap-x-2 p-4 flex-col lg:flex-row mx-auto justify-between  lg:h-[80%] items-center " >
+<div class=" ticket-wrapper-info flex-col lg:justify-between justify-center items-center gap-y-6 ">
   <h3 class="font-bold text-lg  leading-7 text-[#424248]">CTM - Kansas - Echo Bass</h3>
 <img src="assets/ctm.png" class=" w-auto h-28 bg-cover bg-center">
 
 </div>
-<div class="ticket-wrapper-cities flex justify-between gap-x-4">
+<div class="ticket-wrapper-cities flex justify-between gap-x-4  items-center">
     
 <div>
     <h4 class="font-semibold text-lg  leading-7 text-[#424248]">08:00 AM</h4>
     <p>Kansas</p>
 </div>
 
-<div class="text-center">
+<div class="text-center ">
 <i class="fa-solid fa-arrow-right-long text-green-700"></i>
     <p>08:30 min</p>
 </div>
@@ -25,9 +27,9 @@
 </div>
 <div class="ticket-wrapper-price text-center flex flex-col gap-4">
     <h3 class="text-green-600 text-bold text-2xl">$100.00</h3>
-   <p>Off Days: <span>Friday</span></p>
 
-   <button   class="w-full bg-[#0E9E4D] hover:bg-green-600 text-white font-medium py-1 rounded-lg focus:outline-none">Select Seat</button>
+
+   <button   class="w-full bg-[#0E9E4D] hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg focus:outline-none">Select Seat</button>
 
 </div>
 </div>
