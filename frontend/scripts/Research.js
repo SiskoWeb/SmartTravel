@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             const optionLabel = document.createElement('label');
             const companyId = company.name + company.id;
 
-            optionLabel.setAttribute('for', companyId);
+            optionLabel.setAttribute('for', company.name);
             optionLabel.classList.add('flex', 'items-center', 'gap-x-4', 'text-gray-400');
             optionLabel.innerHTML = `
                 <input id="${company.name}" type="radio" name="company" value="${company.name}" class="accent-green-600 border-2 w-4 h-4 text-green-600 bg-gray-100 border-green-300 rounded focus:ring-green-600">
