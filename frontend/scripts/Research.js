@@ -399,8 +399,25 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 // this responsible to edit html 
 //by add data to it and return it to main func <builderTrips>
-
 function cardTrip(trip) {
+    console.log(trip.departure_time);
+
+    //$@desc : get start time and arrive time by add destination time to start date 
+    //convert time from string to Date Type
+    const startDateTimeString = new Date(trip.departure_time);
+
+    const arrivalDateTime = new Date(startDateTimeString.getTime() + trip.road_distance_minute * 60000);
+
+    //get hours and minus and pm or am 
+    const startTimeHours = startDateTimeString.getHours();
+    const startTimeMinutes = startDateTimeString.getMinutes();
+    const startTimePeriod = startTimeHours >= 12 ? 'PM' : 'AM';
+
+    const arriveTimeHours = arrivalDateTime.getHours();
+    const arriveTimeMinutes = arrivalDateTime.getMinutes();
+    const arriveTimePeriod = arriveTimeHours >= 12 ? 'PM' : 'AM';
+
+
     return `
     <div id="ticket-wrapper2" class=" flex  gap-x-2 p-4 flex-col lg:flex-row mx-auto justify-between  lg:h-[80%] items-center " >
     <div class=" ticket-wrapper-info flex-col lg:justify-between justify-center items-center gap-y-6 ">
@@ -411,7 +428,7 @@ function cardTrip(trip) {
     <div class="ticket-wrapper-cities flex justify-between gap-x-4  items-center">
         
     <div>
-        <h4 class="font-semibold text-lg  leading-7 text-[#424248]">08:00 AM</h4>
+        <h4 class="font-semibold text-lg  leading-7 text-[#424248]">${startTimeHours}:${startTimeMinutes} ${startTimePeriod}</h4>
         <p>${trip.road_departure}</p>
     </div>
     
@@ -421,7 +438,7 @@ function cardTrip(trip) {
     </div>
     
     <div>
-        <h4 class="font-semibold text-lg  leading-7 text-[#424248]">04:30 PM</h4>
+        <h4 class="font-semibold text-lg  leading-7 text-[#424248]">${arriveTimeHours}:${arriveTimeMinutes} ${arriveTimePeriod}</h4>
         <p>${trip.road_destination}</p>
     </div>
     

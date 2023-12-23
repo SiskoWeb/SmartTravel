@@ -17,7 +17,7 @@ if (isset($_GET['action'])) {
                     $_GET['departure'],
                     $_GET['destination'],
                     $_GET['date'],
-                    $_GET['time'] ?? null,     
+                    $_GET['timeOfDay'] ?? null,     
                     $_GET['minPrice'] ?? null,  
                     $_GET['maxPrice'] ?? null,
                     $_GET['order']  ?? null   ,
