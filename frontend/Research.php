@@ -6,7 +6,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/ea3542be0c.js" crossorigin="anonymous"></script>
 
-    <title>SmartTravel</title>
+    <title >SmartTravel</title>
     <style>
         /* Add styling for the bus_img */
         #bus_img {
@@ -20,7 +20,7 @@
 
 
 <!-- start form section -->
-<section id="slider_hero" class="bg-cover bg-center relative   h-[300px] flex items-end justify-center" style="background-image: url(assets/heroResearch.jpg)">
+<section  id="slider_hero" class="bg-cover bg-center relative   h-[300px] flex items-end justify-center" style="background-image: url(assets/heroResearch.jpg)">
        <div class="bg-white rounded-tr-md rounded-tl-md w-full h-3/4 flex gap-x-10    max-w-screen-xl  px-4 mx-auto">
        <?php require('components/formSearch.php')?>
        </div>

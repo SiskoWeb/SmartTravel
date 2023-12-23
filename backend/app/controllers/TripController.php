@@ -63,7 +63,7 @@ class TripController
         $arrive_time = $_POST['arrive_time'];
         $seats_available = $_POST['seats_available'];
         $number_bus = $_POST['number_bus'];
-        $road_id = $_POST['road_id'];
+        $road_id = $_POST['road_id'];   
         $timeOfDay = $_POST['timeOfDay'];
 
 

@@ -10,11 +10,8 @@
 
 
         <select id="departure" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-          <option selected>Choose a departure</option>
-          <option value="US">United States</option>
-          <option value="CA">Canada</option>
-          <option value="FR">France</option>
-          <option value="DE">Germany</option>
+          <option class="text-gray-400" value="" disabled selected>Pcik a departure</option>
+
         </select>
       </div>
 
@@ -23,11 +20,8 @@
 
 
         <select id="destination" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-          <option selected>Choose a destination</option>
-          <option value="US">United States</option>
-          <option value="CA">Canada</option>
-          <option value="FR">France</option>
-          <option value="DE">Germany</option>
+          <option class="text-gray-400" value="" disabled selected>Pick a destination</option>
+
         </select>
       </div>
       <div class="grid w-full max-w-md items-center gap-1.5">
@@ -49,3 +43,35 @@
     </form>
   </div>
 </div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+
+    // Fetch cities and populate the dropdowns
+    try {
+      let departure = document.getElementById('departure');
+      let destination = document.getElementById('destination');
+      let citiesPromise = await fetch('../cities.json');
+      let data = await citiesPromise.json();
+
+      data.forEach(city => {
+        // loop through list cities and add it as option
+        addOptionToSelect(departure, city.city);
+        addOptionToSelect(destination, city.city);
+      });
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+    }
+  })
+
+
+
+  // function to add an option <citeis> to a select element
+  function addOptionToSelect(selectElement, optionValue) {
+    const option = document.createElement('option');
+    option.value = optionValue;
+    option.text = optionValue;
+    selectElement.appendChild(option);
+  }
+</script>

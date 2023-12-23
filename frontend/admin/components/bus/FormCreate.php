@@ -10,16 +10,13 @@
 
 
         <select id="Company" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-          <option selected>Choose a country</option>
-          <option value="US">United States</option>
-          <option value="CA">Canada</option>
-          <option value="FR">France</option>
-          <option value="DE">Germany</option>
+          <option selected disabled class="bg-gray-500/20 text-white"> Choose a Company</option>
+
         </select>
       </div>
 
       <div class="grid w-full max-w-md items-center gap-1.5">
-        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="Capasity">Capasity</label>
+        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="Capasity">Number of Seats</label>
         <input id="capasity" type="number" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
       </div>
       <div class="grid w-full max-w-md items-center gap-1.5">
@@ -37,3 +34,38 @@
     </form>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+
+
+    // Fetch cities and populate the dropdowns
+    try {
+      let CompanyDiv = document.getElementById('Company');
+      let CompanyList = await fetch('http://localhost/travel/backend/company.php');
+      let data = await CompanyList.json();
+
+      // loop through list cities and add it as option
+      data.forEach(companyItem => {
+        addOptionToSelectBus(CompanyDiv, companyItem)
+      })
+    } catch (error) {
+      console.error("Error fetching bus:", error);
+    }
+
+
+
+    // function to add an option <buses> to a select element
+    function addOptionToSelectBus(selectElement, optionValue) {
+      const option = document.createElement('option');
+
+      option.value = optionValue.id;
+      option.text = optionValue.name;
+
+      selectElement.appendChild(option);
+    }
+
+
+
+  })
+</script>
