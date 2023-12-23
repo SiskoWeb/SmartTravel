@@ -21,14 +21,19 @@
                         <path d="M12 3v6"></path>
                     </svg><span class="sr-only">Home</span></button>
             </header>
-            <main class="flex-1 p-4">
+            <main class="flex-1 p-4 ">
 
 
-                <?php include('components/card.php') ?>
+                <?php include('components/bus/FormCreate.php') ?>
 
+
+
+                <?php include('components/bus/table.php') ?>
             </main>
+
         </div>
     </div>
+
 
 
     <script>

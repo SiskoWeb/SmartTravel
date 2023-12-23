@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Route</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/ea3542be0c.js" crossorigin="anonymous"></script>
 </head>
@@ -21,14 +21,19 @@
                         <path d="M12 3v6"></path>
                     </svg><span class="sr-only">Home</span></button>
             </header>
-            <main class="flex-1 p-4">
+            <main class="flex-1 p-4 ">
 
 
-                <?php include('components/card.php') ?>
+                <?php include('components/route/FormCreate.php') ?>
 
+
+
+                <?php include('components/route/table.php') ?>
             </main>
+
         </div>
     </div>
+
 
 
     <script>
