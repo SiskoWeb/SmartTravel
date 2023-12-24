@@ -36,6 +36,7 @@
 
 
 
+    <script src="js/bus.js"></script>
     <script src="js/navBar.js"></script>
 </body>
 

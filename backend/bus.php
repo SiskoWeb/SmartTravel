@@ -2,6 +2,7 @@
 
 
 use app\controllers\BusController;
+
 require 'app/Controllers/BusController.php';
 
 
@@ -26,32 +27,32 @@ if (isset($_GET['action'])) {
             BusController::latest();
             break;
 
-            case 'create':
-                BusController::createAction();
-                break;
+        case 'create':
+            BusController::createAction();
+            break;
 
-                case 'update':
-                    if (isset($_GET['id'])) {
-                   
-                        BusController::updateAction($_GET['id']);
-                    } else {
-                        echo "Invalid request id required";
-                    }
-                   
-                    break;
-                 
-                    
-                    case 'delete':
-                        if (isset($_GET['number_bus'])) {
-                            BusController::destroyAction($_GET['number_bus']);
-                        } else {
-                            echo "Invalid request id required";
-                        }
-                        break;
+        case 'update':
+            if (isset($_GET['id'])) {
+
+                BusController::updateAction($_GET['id']);
+            } else {
+                echo "Invalid request id required";
+            }
+
+            break;
+
+
+        case 'delete':
+            if (isset($_GET['number_bus'])) {
+                BusController::destroyAction($_GET['number_bus']);
+            } else {
+                echo "Invalid request id required";
+            }
+            break;
         default:
             echo "Page Not found 404";
             break;
     }
 } else {
-    BusController::indexAction();
+    BusController::latest();
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+
 require 'Model.php';
 
 use app\models\Model;
@@ -13,33 +14,36 @@ class Bus extends Model
     private $companyID;
     private $capacity;
     private $cost_per_km;
-  
 
 
 
-    public function setNumberBus($number_bus) {
+
+    public function setNumberBus($number_bus)
+    {
         $this->number_bus = $number_bus;
     }
 
-    public function setCompanyID($companyID) {
+    public function setCompanyID($companyID)
+    {
         $this->companyID = $companyID;
     }
 
-    public function setCapacity($capacity) {
+    public function setCapacity($capacity)
+    {
         $this->capacity = $capacity;
     }
 
-    public function setCostPerKm($cost_per_km) {
+    public function setCostPerKm($cost_per_km)
+    {
         $this->cost_per_km = $cost_per_km;
     }
 
     public static function latest()
     {
-      
 
-            return static::database()->query('SELECT * FROM bus order by id DESC')
+
+        return static::database()->query('SELECT bus.* , company.name AS companyName ,company.image AS companyImage  FROM bus LEFT JOIN company ON bus.companyID = company.id order by id DESC')
             ->fetchAll(PDO::FETCH_ASSOC);
-   
     }
 
 
@@ -52,7 +56,7 @@ class Bus extends Model
     }
 
 
-    
+
     public static function find($number_bus)
     {
         return static::where('number_bus', $number_bus);
@@ -74,7 +78,8 @@ class Bus extends Model
 
 
 
-    public function create() {
+    public function create()
+    {
         $sqlState = static::database()->prepare("INSERT INTO bus (number_bus, companyID, capacity, cost_per_km) VALUES (?, ?, ?, ?)");
         return $sqlState->execute([$this->number_bus, $this->companyID, $this->capacity, $this->cost_per_km]);
     }
@@ -83,7 +88,8 @@ class Bus extends Model
     //     $sqlState = static::database()->prepare("UPDATE company SET name=?, image=? WHERE id=?");
     //     return $sqlState->execute([$this->name, $this->img, $this->id]);
     // }
-    public function update() {
+    public function update()
+    {
         $sql = "UPDATE bus SET ";
         $params = [];
 
@@ -93,7 +99,7 @@ class Bus extends Model
         }
 
         if ($this->companyID !== null) {
-            $sql .= "company_id=?, ";
+            $sql .= "companyID=?, ";
             $params[] = $this->companyID;
         }
 
@@ -122,15 +128,15 @@ class Bus extends Model
     {
 
         //remove file image
-//     $company =   self::find($id);
-   
-// if(!unlink($company["image"]))
-// {
-//     echo "Not Working";
-// }
-// else {
-//     echo " Working";
-// }
+        //     $company =   self::find($id);
+
+        // if(!unlink($company["image"]))
+        // {
+        //     echo "Not Working";
+        // }
+        // else {
+        //     echo " Working";
+        // }
         $sqlState = self::database()->prepare("DELETE FROM bus WHERE number_bus = ?");
         return $sqlState->execute([$number_bus]);
     }
