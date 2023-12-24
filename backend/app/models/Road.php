@@ -121,17 +121,17 @@ class Road extends Model
         // Remove the trailing comma and space from the SQL string
         $sql = rtrim($sql, ", ");
 
-        // // Check if any fields are set for update
-        // if (empty($params)) {
-        //     return false;  // Nothing to update
-        // }
+        // Check if any fields are set for update
+        if (empty($params)) {
+            return false;  // Nothing to update
+        }
 
         $sql .= " WHERE id=?";
         $params[] = $this->id;
 
         $sqlState = static::database()->prepare($sql);
-
-        return $sqlState->execute($params);
+        $respo  = $sqlState->execute($params);
+        return $respo;
     }
 
 
