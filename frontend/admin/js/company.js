@@ -1,17 +1,18 @@
 
 
-const API_BASE_URL = 'http://localhost/travel/backend/road.php';
+const API_BASE_URL = 'http://localhost/travel/backend/company.php';
+const Image_BASE_URL = 'http://localhost/travel/backend/';
 
 // DOM elements
 const btnForm = document.getElementById('btnForm');
-const routeTable = document.getElementById('routeTable');
-const kmForm = document.getElementById('km');
-const distance_minuteForm = document.getElementById('distance_minute');
-const departure = document.getElementById('departure');
-const destination = document.getElementById('destination');
+const companiesTable = document.getElementById('companiesTable');
+const img = document.getElementById('img');
+const imgDisplay = document.getElementById('imgDisplay');
+const name = document.getElementById('name');
+
 const error_msg = document.getElementById('error_msg');
 
-let routes = [];
+let compines = [];
 let idItemUpdate = null;
 
 
@@ -22,6 +23,29 @@ document.addEventListener('DOMContentLoaded', () => {
     onLoadBuildTable();
 });
 
+//when user change old image display it
+img.addEventListener('change', handleImageSelection);
+
+
+// Function to handle image selection
+function handleImageSelection() {
+    const selectedImage = img.files[0];
+
+    if (selectedImage) {
+        // Create a URL for the selected image
+        const imageURL = URL.createObjectURL(selectedImage);
+
+        // Update the src attribute of the displayedImage
+        imgDisplay.src = imageURL;
+
+
+    } else {
+
+        imgDisplay.value = '';
+        imgDisplay.src = '';
+        imgDisplay.classList.add('hidden')
+    }
+}
 
 
 async function onRemoveRoute(id) {
@@ -39,30 +63,30 @@ async function onLoadBuildTable() {
     try {
         const routePromise = await fetch(API_BASE_URL);
         const data = await routePromise.json();
-        routes = data;
+        compines = data;
 
         if (data.length !== 0) {
-            routeTable.innerHTML = '';
-            data.forEach(route => buildTable(routeTable, route));
+            companiesTable.innerHTML = '';
+            data.forEach(company => buildTable(companiesTable, company));
         } else {
-            console.log('no routes');
+            console.log('no compines');
         }
     } catch (error) {
-        console.error("Error fetching routes:", error);
+        console.error("Error fetching compines:", error);
     }
 }
 
 
 //this function for item in tables 
 //required:table body and data 
-function buildTable(routeTable, data) {
+function buildTable(companiesTable, data) {
     const trTable = document.createElement('tr');
     trTable.classList = 'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted';
     trTable.innerHTML = `
-        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium">${data.departure}</td>
-        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium">${data.destination}</td>
-        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium">${data.distance_km}</td>
-        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium">${data.distance_minute}</td>
+        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium">${data.name}</td>
+        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 table-cell"><img src="${Image_BASE_URL}${data.image}" class="rounded-md object-cover" alt="Beta Corp Logo" width="64" height="64" style="aspect-ratio: 64 / 64; object-fit: cover;"></td>
+
+
         <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
             <div class="flex space-x-2">
                 <button onclick='onEditBtnRoute(${data.id})' class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full sm:w-[100px]">
@@ -84,22 +108,23 @@ function buildTable(routeTable, data) {
             </div>
         </td>`;
 
-    routeTable.appendChild(trTable);
+    companiesTable.appendChild(trTable);
 }
 
 function onEditBtnRoute(id) {
     idItemUpdate = id;
 
     // get data route admin wants to update by id
-    let routeEdit = routes.find((item) => item.id === id);
+    let compnyEdit = compines.find((item) => item.id === id);
     //change  btnForm To Become Update
     btnForm.textContent = 'Update';
     // fill data route to inputs to update it
-    kmForm.value = routeEdit.distance_km;
-    distance_minuteForm.value = routeEdit.distance_minute;
-    fillInputsWithUpdate(departure, routeEdit.departure);
-    fillInputsWithUpdate(destination, routeEdit.destination);
+    name.value = compnyEdit.name;
+    imgDisplay.src = `${Image_BASE_URL}${compnyEdit.image}`;
+    imgDisplay.classList.remove('hidden')
+
 }
+
 
 
 
@@ -107,27 +132,22 @@ function onEditBtnRoute(id) {
 async function onBtnFormClick() {
 
     //validation inputs
-    if (kmForm.value.trim() === '') {
-        return error_msg.textContent = 'Distance Km is Required'
+    if (name.value.trim() === '') {
+        return error_msg.textContent = 'name is Required'
     }
-    if (distance_minuteForm.value.trim() === '') {
-        return error_msg.textContent = 'distance minute is Required'
+    if (img.files.length === 0) {
+        return error_msg.textContent = 'image is Required'
     }
-    if (departure.value.trim() === '') {
-        return error_msg.textContent = 'departure  is Required'
-    }
-    if (destination.value.trim() === '') {
-        return error_msg.textContent = 'destination is Required'
-    }
+
+
 
 
 
     //create formdata to send it to server
     const formData = new FormData();
-    formData.append('distance_km', kmForm.value);
-    formData.append('distance_minute', distance_minuteForm.value);
-    formData.append('departure', departure.value);
-    formData.append('destination', destination.value);
+    formData.append('name', name.value);
+    formData.append('img', img.files[0]);
+
 
     if (btnForm.textContent === 'Update') {
         if (idItemUpdate === null) return error_msg.textContent = 'chose item first'
@@ -184,11 +204,12 @@ async function onBtnFormClick() {
 }
 
 function clearForm() {
-    kmForm.value = '';
-    distance_minuteForm.value = '';
-    departure.value = '';
-    destination.value = '';
-    error_msg.textContent = '';
+    img.value = '';
+
+    name.value = '';
+    imgDisplay.value = '';
+    imgDisplay.src = '';
+    imgDisplay.classList.add('hidden')
     idItemUpdate = null;
 }
 

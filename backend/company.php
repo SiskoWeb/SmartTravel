@@ -2,7 +2,9 @@
 
 
 use app\controllers\CompanyController;
+
 require 'app/Controllers/companyController.php';
+require 'cors.php';
 
 
 
@@ -26,28 +28,28 @@ if (isset($_GET['action'])) {
             CompanyController::latest();
             break;
 
-            case 'create':
-                CompanyController::createAction();
-                break;
+        case 'create':
+            CompanyController::createAction();
+            break;
 
-                case 'update':
-                    if (isset($_GET['id'])) {
-                   
-                        CompanyController::updateAction($_GET['id']);
-                    } else {
-                        echo "Invalid request id required";
-                    }
-                   
-                    break;
-                 
-                    
-                    case 'delete':
-                        if (isset($_GET['id'])) {
-                            CompanyController::destroyAction($_GET['id']);
-                        } else {
-                            echo "Invalid request id required";
-                        }
-                        break;
+        case 'update':
+            if (isset($_GET['id'])) {
+
+                CompanyController::updateAction($_GET['id']);
+            } else {
+                echo "Invalid request id required";
+            }
+
+            break;
+
+
+        case 'delete':
+            if (isset($_GET['id'])) {
+                CompanyController::destroyAction($_GET['id']);
+            } else {
+                echo "Invalid request id required";
+            }
+            break;
         default:
             echo "Page Not found 404";
             break;

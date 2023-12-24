@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+
 require 'Model.php';
 
 use app\models\Model;
@@ -12,13 +13,13 @@ class Company extends Model
     private $id;
     private $name;
     private $img;
-  
+
 
 
 
     public function setId($id)
     {
-         $this->id = $id;
+        $this->id = $id;
     }
 
     public function setName($name)
@@ -33,11 +34,10 @@ class Company extends Model
 
     public static function latest()
     {
-      
 
-            return static::database()->query('SELECT * FROM company order by id DESC')
+
+        return static::database()->query('SELECT * FROM company order by id DESC')
             ->fetchAll(PDO::FETCH_ASSOC);
-   
     }
 
 
@@ -50,7 +50,7 @@ class Company extends Model
     }
 
 
-    
+
     public static function find($id)
     {
         return static::where('id', $id);
@@ -72,7 +72,7 @@ class Company extends Model
 
 
 
-        public function create()
+    public function create()
     {
 
         $sqlState = static::database()->prepare("INSERT INTO company (name, image) VALUES (?, ?)");
@@ -85,7 +85,7 @@ class Company extends Model
     // }
     public function update()
     {
-       
+
         $sql = "UPDATE company SET ";
         $params = [];
 
@@ -114,15 +114,15 @@ class Company extends Model
     {
 
         //remove file image
-//     $company =   self::find($id);
-   
-// if(!unlink($company["image"]))
-// {
-//     echo "Not Working";
-// }
-// else {
-//     echo " Working";
-// }
+        //     $company =   self::find($id);
+
+        // if(!unlink($company["image"]))
+        // {
+        //     echo "Not Working";
+        // }
+        // else {
+        //     echo " Working";
+        // }
         $sqlState = self::database()->prepare("DELETE FROM company WHERE id = ?");
         return $sqlState->execute([$id]);
     }
