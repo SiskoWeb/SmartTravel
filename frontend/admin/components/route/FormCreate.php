@@ -5,6 +5,7 @@
   </div>
   <div class="p-6">
     <form class="grid gap-4">
+      <p id="error_msg"></p>
       <div class="grid w-full max-w-md items-center gap-1.5">
         <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="departure">Departure</label>
 
@@ -37,10 +38,10 @@
 
 
 
-      <button class="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-md px-3 w-full">
-        Create
-      </button>
     </form>
+    <button type="button" id="btnForm" class="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-md px-3 w-full">
+      Create
+    </button>
   </div>
 </div>
 
