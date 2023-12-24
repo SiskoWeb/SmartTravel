@@ -35,7 +35,7 @@
     </div>
 
 
-    <script src="js/table.js"></script>
+    <script src="js/route.js"></script>
     <script src="js/navBar.js"></script>
 
 

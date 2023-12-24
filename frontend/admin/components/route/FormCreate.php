@@ -47,9 +47,10 @@
 
 
 <script>
+  // Fetch cities and populate the dropdowns
   document.addEventListener('DOMContentLoaded', async () => {
 
-    // Fetch cities and populate the dropdowns
+
     try {
       let departure = document.getElementById('departure');
       let destination = document.getElementById('destination');
