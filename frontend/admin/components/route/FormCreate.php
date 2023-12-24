@@ -5,7 +5,10 @@
   </div>
   <div class="p-6">
     <form class="grid gap-4">
-      <p id="error_msg"></p>
+
+      <div id="error_msg" class=" text-sm text-red-500 rounded-lg  dark:bg-gray-800 dark:text-red-400" role="alert">
+
+      </div>
       <div class="grid w-full max-w-md items-center gap-1.5">
         <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="departure">Departure</label>
 

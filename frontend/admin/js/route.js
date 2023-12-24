@@ -41,12 +41,10 @@ async function onLoadBuildTable() {
         const data = await routePromise.json();
         routes = data;
 
-        if (data.length !== 0) {
-            routeTable.innerHTML = '';
-            data.forEach(route => buildTable(routeTable, route));
-        } else {
-            console.log('no routes');
-        }
+
+        routeTable.innerHTML = '';
+        data?.forEach(route => buildTable(routeTable, route));
+
     } catch (error) {
         console.error("Error fetching routes:", error);
     }
@@ -120,6 +118,9 @@ async function onBtnFormClick() {
         return error_msg.textContent = 'destination is Required'
     }
 
+    if (departure.value.trim() === destination.value.trim()) {
+        return error_msg.textContent = "Warning: Alright, you've made it! You wanna Travel to same city "
+    }
 
 
     //create formdata to send it to server

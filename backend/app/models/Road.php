@@ -140,17 +140,11 @@ class Road extends Model
     public static function  destroy($id)
     {
 
-        //remove file image
-        //     $company =   self::find($id);
-
-        // if(!unlink($company["image"]))
-        // {
-        //     echo "Not Working";
-        // }
-        // else {
-        //     echo " Working";
-        // }
-        $sqlState = self::database()->prepare("DELETE FROM road WHERE id = ?");
-        return $sqlState->execute([$id]);
+        $removeTripFirst = self::database()->prepare("DELETE FROM trip WHERE road_id = ?");
+        $removeTripFirst->execute([$id]);
+        if ($removeTripFirst) {
+            $sqlState = self::database()->prepare("DELETE FROM road WHERE id = ?");
+            return $sqlState->execute([$id]);
+        }
     }
 }

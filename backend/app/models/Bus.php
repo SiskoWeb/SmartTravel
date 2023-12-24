@@ -127,17 +127,13 @@ class Bus extends Model
     public static function  destroy($number_bus)
     {
 
-        //remove file image
-        //     $company =   self::find($id);
 
-        // if(!unlink($company["image"]))
-        // {
-        //     echo "Not Working";
-        // }
-        // else {
-        //     echo " Working";
-        // }
-        $sqlState = self::database()->prepare("DELETE FROM bus WHERE number_bus = ?");
-        return $sqlState->execute([$number_bus]);
+
+        $removeTripFirst = self::database()->prepare("DELETE FROM trip WHERE number_bus = ?");
+        $removeTripFirst->execute([$number_bus]);
+        if ($removeTripFirst) {
+            $sqlState = self::database()->prepare("DELETE FROM bus WHERE number_bus = ?");
+            return $sqlState->execute([$number_bus]);
+        }
     }
 }

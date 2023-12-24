@@ -94,3 +94,10 @@ WHERE
     road.departure = 'safi' 
     AND road.destination = 'casablanca'
     AND DATE(trip.departure_time) = '2023-01-10';
+
+
+
+-- //remove automaticly trip contain bus 
+ALTER TABLE trip
+DROP FOREIGN KEY trip_ibfk_1,
+ADD FOREIGN KEY (number_bus) REFERENCES bus(number_bus) ON DELETE CASCADE;

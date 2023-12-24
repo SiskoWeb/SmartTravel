@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function onRemoveRoute(id) {
     try {
-        await fetch(`${API_BASE_URL}?action=delete&id=${id}`, { method: 'DELETE' });
+        await fetch(`${API_BASE_URL}?action=delete&number_bus=${id}`, { method: 'DELETE' });
         onLoadBuildTable();
     } catch (error) {
         console.error("Error deleting route:", error);
@@ -44,12 +44,10 @@ async function onLoadBuildTable() {
         const data = await busPromise.json();
         buses = data;
 
-        if (data.length !== 0) {
-            busesTable.innerHTML = '';
-            data.forEach(bus => buildTable(busesTable, bus));
-        } else {
-            console.log('no buses');
-        }
+
+        busesTable.innerHTML = '';
+        data.forEach(bus => buildTable(busesTable, bus));
+
     } catch (error) {
         console.error("Error fetching buses:", error);
     }

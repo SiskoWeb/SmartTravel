@@ -4,7 +4,9 @@
     <h3 class="text-2xl font-semibold leading-none tracking-tight">Company Information</h3>
   </div>
   <div class="p-6">
-    <p id="error_msg"></p>
+  <div id="error_msg" class=" text-sm text-red-500 rounded-lg  dark:bg-gray-800 dark:text-red-400" role="alert">
+
+      </div>
     <form class="grid gap-4 ">
       <div class="grid w-full max-w-sm items-center gap-1.5">
         <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="name">Name</label>

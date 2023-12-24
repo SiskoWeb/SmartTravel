@@ -4,6 +4,9 @@
     <h3 class="text-2xl font-semibold leading-none tracking-tight">Product Information</h3>
   </div>
   <div class="p-6">
+  <div id="error_msg" class=" text-sm text-red-500 rounded-lg  dark:bg-gray-800 dark:text-red-400" role="alert">
+
+      </div>
     <form class="grid gap-4">
       <div class="grid w-full max-w-md items-center gap-1.5">
 

@@ -123,7 +123,14 @@ class Company extends Model
         // else {
         //     echo " Working";
         // }
-        $sqlState = self::database()->prepare("DELETE FROM company WHERE id = ?");
-        return $sqlState->execute([$id]);
+
+        //remove all buses belong company admin wnats remove it
+        $removeTripFirst = self::database()->prepare("DELETE FROM bus WHERE companyID = ?");
+        $removeTripFirst->execute([$id]);
+        if ($removeTripFirst) {
+
+            $sqlState = self::database()->prepare("DELETE FROM company WHERE id = ?");
+            return $sqlState->execute([$id]);
+        }
     }
 }

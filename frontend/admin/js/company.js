@@ -65,12 +65,10 @@ async function onLoadBuildTable() {
         const data = await routePromise.json();
         compines = data;
 
-        if (data.length !== 0) {
+       
             companiesTable.innerHTML = '';
             data.forEach(company => buildTable(companiesTable, company));
-        } else {
-            console.log('no compines');
-        }
+      
     } catch (error) {
         console.error("Error fetching compines:", error);
     }
