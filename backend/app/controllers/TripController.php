@@ -53,17 +53,17 @@ class TripController
     public static function createAction()
     {
         // List of data expected from the user
-        $requiredFields = ['departure_time', 'arrive_time', 'seats_available', 'number_bus', 'road_id', 'timeOfDay'];
+        $requiredFields = ['departure_time',  'seats_available', 'number_bus', 'road_id', 'timeOfDay'];
 
         // Validation
         self::validator($requiredFields);
 
         // Get data from the POST request
         $departure_time = $_POST['departure_time'];
-        $arrive_time = $_POST['arrive_time'];
+        // $arrive_time = $_POST['arrive_time'];
         $seats_available = $_POST['seats_available'];
         $number_bus = $_POST['number_bus'];
-        $road_id = $_POST['road_id'];   
+        $road_id = $_POST['road_id'];
         $timeOfDay = $_POST['timeOfDay'];
 
 
@@ -85,6 +85,14 @@ class TripController
         //         return;
         //     }
 
+        // // Check if Road with given id exists
+        // $road = Trip::find($road_id);
+
+        // if (!$road) {
+        //     self::sendResponse("There is no Trip under this id: $road_id", 401);
+        //     return;
+        // }
+
 
         ///check if trip dublicated by compare departure time with all time in same route
         $isDuplicated = Trip::isDuplicateTrip($road_id, $departure_time);
@@ -96,7 +104,7 @@ class TripController
         // Create a new Trip instance
         $trip = new Trip();
         $trip->setDepartureTime($departure_time);
-        $trip->setArriveTime($arrive_time);
+        // $trip->setArriveTime($arrive_time);
         $trip->setSeatsAvailable($seats_available);
         $trip->setNumberBus($number_bus);
         $trip->setRoadId($road_id);
@@ -118,7 +126,7 @@ class TripController
 
         // Check if id exists
         if ($id === null) {
-            self::sendResponse("id required", 404);
+            self::sendResponse("id required", 401);
             return;
         }
 
@@ -126,7 +134,7 @@ class TripController
         $road = Trip::find($id);
 
         if (!$road) {
-            self::sendResponse("There is no Trip under this id: $id", 404);
+            self::sendResponse("There is no Trip under this id: $id", 401);
             return;
         }
 

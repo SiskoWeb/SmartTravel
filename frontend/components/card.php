@@ -40,3 +40,29 @@
      <span class="bg-[#f7f7f7] text-[#777] p-1 rounded-md">Wifi</span>
 </div>
 </article>
+
+
+
+<script>
+const API_BASE_URL = 'http://localhost/travel/backend/trip.php';
+try {
+        
+            const url = buildUrl();
+            const response = await fetch(API_BASE_UR);
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+            const data = await response.json();
+            builderTrips(data)
+            loader.classList.replace("flex", "hidden")
+            console.log("Fetch successful. Data:", data);
+            // Handle the data as needed
+        } catch (error) {
+            console.error("Fetch failed:", error);
+            loader.classList.replace("flex", "hidden")
+
+            buildMsgNoTrip()
+            // Handle errors
+        }
+
+</script>

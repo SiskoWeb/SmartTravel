@@ -36,6 +36,7 @@
 
 
 
+    <script src="js/trip.js"></script>
     <script src="js/navBar.js"></script>
 </body>
 

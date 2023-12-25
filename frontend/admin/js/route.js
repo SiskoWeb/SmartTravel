@@ -190,6 +190,7 @@ function clearForm() {
     departure.value = '';
     destination.value = '';
     error_msg.textContent = '';
+    
     idItemUpdate = null;
 }
 

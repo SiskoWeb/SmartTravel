@@ -208,6 +208,7 @@ function clearForm() {
     imgDisplay.value = '';
     imgDisplay.src = '';
     imgDisplay.classList.add('hidden')
+ 
     idItemUpdate = null;
 }
 

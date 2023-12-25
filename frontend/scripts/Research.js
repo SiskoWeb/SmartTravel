@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', async function () {
+
     const loader = document.getElementById('loader')
     loader.classList.replace("hidden", "flex")
 
@@ -7,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
-    document.getElementById('restBtn').addEventListener('click', onSubmit)
+
 
 
 
@@ -54,11 +55,18 @@ document.addEventListener('DOMContentLoaded', async function () {
     let minPriceParam = urlParams.get('minPrice') || 0;
     let maxPriceParam = urlParams.get('maxPrice') || null;
     let orderParam = urlParams.get('order') || null;
-    let timeParam = urlParams.get('time') || null;
+    let timeParam = urlParams.get('timeOfDay') || null;
     let companyParam = urlParams.get('company') || null;
 
-
-
+    //ahen click on rest btn this fun work by calling onSubmit function
+    document.getElementById('restBtn').addEventListener('click', () => {
+        minPriceParam = 0;
+        maxPriceParam = null;
+        orderParam = null;
+        timeParam = null;
+        companyParam = null;
+        onLoadPageFetchTrips()
+    })
 
 
     // Set default values in form inputs
@@ -89,7 +97,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             queryParams.set('order', orderParam);
         }
         if (timeParam !== null) {
-            queryParams.set('time', timeParam);
+            queryParams.set('timeOfDay', timeParam);
         }
 
         if (companyParam !== null) {
@@ -101,28 +109,30 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
+    onLoadPageFetchTrips()
+    async function onLoadPageFetchTrips() {
+        // Fetch data when the page loads
+        try {
 
-    // Fetch data when the page loads
-    try {
+            const url = buildUrl();
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+            const data = await response.json();
+            console.log("Initial fetch successful. Data:", data);
+            builderTrips(data)
 
-        const url = buildUrl();
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.statusText}`);
+            loader.classList.replace("flex", "hidden")
+            // Handle the data as needed
+        } catch (error) {
+            console.error("Initial fetch failed:", error);
+            loader.classList.replace("flex", "hidden")
+
+            buildMsgNoTrip()
+            // Handle errors
+
         }
-        const data = await response.json();
-        console.log("Initial fetch successful. Data:", data);
-        builderTrips(data)
-
-        loader.classList.replace("flex", "hidden")
-        // Handle the data as needed
-    } catch (error) {
-        console.error("Initial fetch failed:", error);
-        loader.classList.replace("flex", "hidden")
-
-        buildMsgNoTrip()
-        // Handle errors
-
     }
 
 
@@ -173,7 +183,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             queryParams.set('order', orderParam);
         }
         if (timeParam !== null) {
-            queryParams.set('time', timeParam);
+            queryParams.set('timeOfDay', timeParam);
         }
 
         if (companyParam !== null) {
