@@ -21,6 +21,25 @@ CREATE TABLE road (
     UNIQUE KEY unique_departure_destination (departure, destination)
 );
 
+-- bring status data 
+SELECT  (
+        SELECT COUNT(*)
+        FROM   bus
+        ) AS bus_status,
+        (
+        SELECT COUNT(*)
+        FROM   trip
+        ) AS trip_status,
+         (
+        SELECT COUNT(*)
+        FROM   road
+        ) AS road_status,
+        (SELECT COUNT(*)
+         FROM company)
+         AS company_status
+FROM    dual
+
+
 -- //srource :https://youtu.be/jVbj72YO-8s
 
 CREATE TABLE trip (

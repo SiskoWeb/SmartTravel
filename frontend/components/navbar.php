@@ -27,7 +27,7 @@
 </nav>
 
 
-<nav class="bg-white border-gray-200 py-2 dark:bg-gray-900 shadow-b shadow-lg">
+<nav class="relative lg:static bg-white border-gray-200 py-2 dark:bg-gray-900 shadow-b shadow-lg">
     <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
         <a href="./" class="flex items-center">
             <img src="assets/logo.png" class="h-8 mr-3 sm:h-12" alt="travel Logo">
@@ -50,7 +50,7 @@
                 </svg>
             </button>
         </div>
-        <div class="items-center justify-between w-full lg:flex lg:w-auto lg:order-1 hidden " id="mobile-menu-2">
+        <div class="absolute lg:static top-16 left-0 right-0 z-[999] bg-white  items-center justify-between w-full lg:flex lg:w-auto lg:order-1 hidden " id="mobile-menu-2">
             <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                 <li>
                     <a href="./" class="block py-2 pl-3 pr-4 text-white bg-green-700 rounded lg:bg-transparent lg:text-green-700 lg:p-0 dark:text-white" aria-current="page">Home</a>

@@ -3,8 +3,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const slider_hero = document.getElementById('slider_hero');
 
     const img_url = [
-        'assets/heroResearch.png',
-        'assets/heroResearch.jpg'
+        'assets/slider/1.jpg',
+        'assets/slider/2.jpg',
+        'assets/slider/3.jpg',
+
     ];
 
     function sliderHeroFun(index) {
