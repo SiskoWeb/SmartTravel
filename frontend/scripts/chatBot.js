@@ -115,9 +115,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             })
             .catch(error => {
+
                 //remove msg thinging
+                addBotMessage('Oops something went wrong, Please try again .APi KEY', 'bg-red-50 text-red-500');
+
+
                 addBotThinking(false)
-                addBotMessage('Oops something went wrong, Please try again', 'bg-red-50 text-red-500');
             });
 
 
