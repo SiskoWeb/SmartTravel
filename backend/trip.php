@@ -1,10 +1,10 @@
 <?php
+require 'cors.php';
 
 
 use app\controllers\TripController;
 
 require 'app/Controllers/TripController.php';
-require 'cors.php';
 
 
 if (isset($_GET['action'])) {
